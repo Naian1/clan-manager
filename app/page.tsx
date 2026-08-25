@@ -5,14 +5,14 @@ const demoPlayers=[
  {rank:2,name:'Os membros aparecerão aqui',tag:'#---',score:0,stars:0,donations:0},
  {rank:3,name:'Sem dados ainda',tag:'#---',score:0,stars:0,donations:0},
 ];
-const nav=[['🏠','Visão geral','/'],['👥','Jogadores','/players'],['⚔️','Guerras','/wars'],['🛡️','CWL','/cwl'],['🏰','Capital','/capital'],['⚙️','Admin','/admin']];
+const nav=[['🏠','Visão geral','/'],['👥','Jogadores','/players'],['⚔️','Guerras','/wars'],['🛡️','CWL','/cwl'],['🏰','Capital','/capital'],['⚙️','Administração','/admin']];
 const metrics=[
  ['members','Membros','— / 50','Aguardando API'],['swords','Guerras vencidas','—','Aguardando API'],['fire','Sequência de vitórias','—','Aguardando API'],['star','Estrelas no mês','—','Guerras + CWL'],
  ['potion','Doações no mês','—','Aguardando API'],['potion','Recebidas no mês','—','Aguardando API'],['capital','Capital Raid','—','Aguardando API'],['alert','Alertas','0','Tudo certo!']
 ];
 function Icon({name,className='game-icon'}:{name:string,className?:string}){return <svg className={className} aria-hidden="true"><use href={`/assets/ui/icons.svg#${name}`}/></svg>}
 export default function HomePage(){return <div className="game-shell">
- <header className="hero-header"><div className="hero-content"><div className="brand-game"><img src="/assets/ui/clan-shield.svg" className="clan-shield" alt="Escudo Clan Manager"/><div><h1>Clan Manager</h1><p>#2GRURLPLL</p></div></div><div className="hero-actions"><div className="round-action">🏆</div><div className="round-action">🧔</div></div></div></header>
+ <header className="hero-header"><div className="hero-content"><div className="brand-game"><img src="/assets/clash/clan-shield.svg" className="clan-shield" alt="Escudo Clan Manager"/><div><h1>Clan Manager</h1><p>#2GRURLPLL</p></div></div><div className="hero-actions"><div className="round-action">🏆</div><div className="round-action">🧔</div></div></div></header>
  <nav className="game-nav">{nav.map(([icon,label,href],i)=><Link href={href} key={href} className={`game-nav-item ${i===0?'active':''}`}><span className="nav-icon">{icon}</span><span>{label}</span></Link>)}</nav>
  <main className="game-main">
   <section className="metrics-game">{metrics.map(([icon,label,value,note])=><article className="stone-card" key={label}><Icon name={icon}/><div className="metric-copy"><div className="stone-title">{label}</div><div className="stone-value">{value}</div><div className="stone-note">{note}</div></div></article>)}</section>
