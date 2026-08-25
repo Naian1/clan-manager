@@ -1,0 +1,1 @@
+Individual raster assets are replacing the broken atlas. This note can be removed later.
