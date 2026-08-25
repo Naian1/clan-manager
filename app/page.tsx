@@ -51,6 +51,34 @@ export default async function HomePage() {
 
   return (
     <div className="game-shell">
+      <style>{`
+        .stone-card{
+          clip-path:none!important;
+          border:0!important;
+          border-radius:0!important;
+          background:transparent url('/assets/clash/panel-ranking.png') center/100% 100% no-repeat!important;
+          box-shadow:none!important;
+          filter:drop-shadow(0 8px 5px rgba(0,0,0,.55));
+          padding:38px 34px 34px!important;
+          min-height:205px!important;
+          overflow:visible!important;
+        }
+        .stone-card .metric-copy{padding-top:8px!important}
+        .stone-card .stone-title,.stone-card .stone-value{color:#25180f!important;text-shadow:0 1px rgba(255,255,255,.75)!important}
+        .stone-card .stone-note{color:#5b4933!important}
+        .ranking-panel{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
+        .ranking-frame-bg{inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;background:transparent!important;border:0!important;border-radius:0!important}
+        .shortcut{border:0!important}
+        @media(max-width:760px){
+          .stone-card{min-height:160px!important;padding:30px 18px 25px!important}
+          .stone-card .metric-icon{font-size:40px!important;margin-top:3px!important}
+          .stone-card .stone-title{font-size:12px!important}
+          .stone-card .stone-value{font-size:25px!important;margin-top:11px!important}
+          .stone-card .stone-note{font-size:9px!important;margin-top:9px!important}
+          .ranking-panel{padding:48px 19px 25px!important}
+        }
+      `}</style>
+
       <header className="hero-header">
         <div className="hero-content">
           <div className="brand-game">
