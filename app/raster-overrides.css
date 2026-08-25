@@ -1,0 +1,10 @@
+.game-nav-item{background-image:url('/assets/clash/wood-tab.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.game-nav-item.active{background-image:url('/assets/clash/wood-tab.webp')!important;filter:brightness(1.32) saturate(1.35);color:#2d1b0d!important;text-shadow:0 1px 0 #fff5bf!important}
+.stone-card,.card{background-image:url('/assets/clash/panel-stone.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.war-panel{background-image:url('/assets/clash/panel-war.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.ribbon{background-image:url('/assets/clash/ribbon-red.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.ranking-panel{background-image:url('/assets/clash/ranking-frame.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.stone-button,.api-banner{background-image:url('/assets/clash/wood-tab.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.shortcut{background-image:url('/assets/clash/panel-stone.webp')!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.shortcut.green{background-color:#70a62b!important;background-blend-mode:multiply!important}.shortcut.blue{background-color:#327fc7!important;background-blend-mode:multiply!important}.shortcut.purple{background-color:#8151b4!important;background-blend-mode:multiply!important}
+@media(max-width:760px){.stone-card{min-height:145px;padding:25px 14px 20px}.war-panel{min-height:330px;padding:52px 18px 24px}.ranking-panel{min-height:330px;padding:52px 18px 22px}.shortcut{height:105px;padding:15px 22px}.game-nav-item{height:82px}}
