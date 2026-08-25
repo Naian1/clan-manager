@@ -9,19 +9,19 @@ const demoPlayers = [
 ];
 
 const nav = [
-  ['star', 'Visão geral', '/'], ['members', 'Jogadores', '/players'], ['swords', 'Guerras', '/wars'],
-  ['capital', 'CWL', '/cwl'], ['capital', 'Capital', '/capital'], ['alert', 'Administração', '/admin'],
+  ['🏠', 'Visão geral', '/'], ['👥', 'Jogadores', '/players'], ['⚔️', 'Guerras', '/wars'],
+  ['🛡️', 'CWL', '/cwl'], ['🏰', 'Capital', '/capital'], ['⚙️', 'Administração', '/admin'],
 ];
 
 const metrics = [
-  ['members', 'Membros', '— / 50', 'Aguardando API'],
-  ['swords', 'Guerras vencidas', '—', 'Aguardando API'],
-  ['fire', 'Sequência de vitórias', '—', 'Aguardando API'],
-  ['star', 'Estrelas no mês', '—', 'Guerras + CWL'],
-  ['potion-green', 'Doações no mês', '—', 'Aguardando API'],
-  ['potion-purple', 'Recebidas no mês', '—', 'Aguardando API'],
-  ['capital', 'Capital Raid', '—', 'Aguardando API'],
-  ['alert', 'Alertas', '0', 'Tudo certo!'],
+  ['👥', 'Membros', '— / 50', 'Aguardando API'],
+  ['⚔️', 'Guerras vencidas', '—', 'Aguardando API'],
+  ['🔥', 'Sequência de vitórias', '—', 'Aguardando API'],
+  ['⭐', 'Estrelas no mês', '—', 'Guerras + CWL'],
+  ['🧪', 'Doações no mês', '—', 'Aguardando API'],
+  ['📦', 'Recebidas no mês', '—', 'Aguardando API'],
+  ['💎', 'Capital Raid', '—', 'Aguardando API'],
+  ['🚨', 'Alertas', '0', 'Tudo certo!'],
 ];
 
 type ClanData = {
@@ -45,10 +45,6 @@ async function getClan(): Promise<ClanData | null> {
   }
 }
 
-function RasterIcon({ name, className = 'raster-icon' }: { name: string; className?: string }) {
-  return <img src={`/assets/clash/${name}.png`} className={className} alt="" aria-hidden="true" />;
-}
-
 export default async function HomePage() {
   const clan = await getClan();
   const badge = clan?.badgeUrls?.large ?? clan?.badgeUrls?.medium;
@@ -58,7 +54,7 @@ export default async function HomePage() {
       <header className="hero-header">
         <div className="hero-content">
           <div className="brand-game">
-            <img src={badge ?? '/assets/clash/shield-fallback.png'} className="clan-shield" alt={badge ? `Escudo de ${clan?.name ?? 'clã'}` : 'Escudo aguardando API'} />
+            {badge ? <img src={badge} className="clan-shield" alt={`Escudo de ${clan?.name ?? 'clã'}`} /> : <div className="clan-badge-placeholder">API</div>}
             <div><h1>Clan Manager</h1><p>{clan?.name ? `${clan.name} · ` : ''}{CLAN_TAG}</p></div>
           </div>
           <div className="hero-actions"><div className="round-action">🏆</div><div className="round-action">🧔</div></div>
@@ -68,7 +64,7 @@ export default async function HomePage() {
       <nav className="game-nav" aria-label="Navegação principal">
         {nav.map(([icon, label, href], i) => (
           <Link href={href} key={`${label}-${href}`} className={`game-nav-item ${i === 0 ? 'active' : ''}`}>
-            <RasterIcon name={icon} className="nav-raster-icon" /><span>{label}</span>
+            <span className="nav-icon">{icon}</span><span>{label}</span>
           </Link>
         ))}
       </nav>
@@ -77,15 +73,13 @@ export default async function HomePage() {
         <section className="metrics-game">
           {metrics.map(([icon, label, value, note]) => (
             <article className="stone-card" key={label}>
-              <img src="/assets/clash/panel-stone.png" className="panel-frame-bg" alt="" aria-hidden="true" />
-              <RasterIcon name={icon} className="metric-raster-icon" />
+              <div className="metric-icon">{icon}</div>
               <div className="metric-copy"><div className="stone-title">{label}</div><div className="stone-value">{value}</div><div className="stone-note">{note}</div></div>
             </article>
           ))}
         </section>
 
         <section className="war-panel game-panel">
-          <img src="/assets/clash/panel-war.png" className="panel-frame-bg war-frame-bg" alt="" aria-hidden="true" />
           <h2 className="ribbon">GUERRA ATUAL</h2>
           <div className="war-grid">
             <div className="war-team"><b>Seu clã</b><div className="mini-shield">?</div><div className="stars">★★★</div><strong>—%</strong></div>
@@ -102,9 +96,9 @@ export default async function HomePage() {
         </section>
 
         <section className="shortcut-grid">
-          <Link href="/players" className="shortcut green"><RasterIcon name="potion-green" className="shortcut-raster-icon" /><strong>Melhores doadores</strong><small>Aguardando dados</small></Link>
-          <Link href="/wars" className="shortcut blue"><RasterIcon name="star" className="shortcut-raster-icon" /><strong>Mais Estrelas</strong><small>Aguardando dados</small></Link>
-          <Link href="/capital" className="shortcut purple"><RasterIcon name="capital" className="shortcut-raster-icon" /><strong>Capital Raid</strong><small>Aguardando dados</small></Link>
+          <Link href="/players" className="shortcut green"><span className="shortcut-icon">🧪</span><strong>Melhores doadores</strong><small>Aguardando dados</small></Link>
+          <Link href="/wars" className="shortcut blue"><span className="shortcut-icon">⭐</span><strong>Mais Estrelas</strong><small>Aguardando dados</small></Link>
+          <Link href="/capital" className="shortcut purple"><span className="shortcut-icon">🛡️</span><strong>Capital Raid</strong><small>Aguardando dados</small></Link>
         </section>
 
         <section className="api-banner"><div className="barbarian">🗡️</div><div><strong>Conecte sua API da Supercell</strong><span>O escudo real do clã e os dados entram automaticamente quando a integração estiver ativa.</span></div><Link href="/admin" className="gold-button">Configurar API</Link></section>
