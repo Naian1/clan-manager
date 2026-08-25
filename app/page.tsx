@@ -1,24 +1,102 @@
 import Link from 'next/link';
 
-const demoPlayers=[
- {rank:1,name:'Aguardando sincronização',tag:'#---',score:0,stars:0,donations:0},
- {rank:2,name:'Os membros aparecerão aqui',tag:'#---',score:0,stars:0,donations:0},
- {rank:3,name:'Sem dados ainda',tag:'#---',score:0,stars:0,donations:0},
+const CLAN_TAG = '#2GRURLPLL';
+
+const demoPlayers = [
+  { rank: 1, name: 'Aguardando sincronização', tag: '#---', score: 0, stars: 0, donations: 0 },
+  { rank: 2, name: 'Os membros aparecerão aqui', tag: '#---', score: 0, stars: 0, donations: 0 },
+  { rank: 3, name: 'Sem dados ainda', tag: '#---', score: 0, stars: 0, donations: 0 },
 ];
-const nav=[['🏠','Visão geral','/'],['👥','Jogadores','/players'],['⚔️','Guerras','/wars'],['🛡️','CWL','/cwl'],['🏰','Capital','/capital'],['⚙️','Administração','/admin']];
-const metrics=[
- ['members','Membros','— / 50','Aguardando API'],['swords','Guerras vencidas','—','Aguardando API'],['fire','Sequência de vitórias','—','Aguardando API'],['star','Estrelas no mês','—','Guerras + CWL'],
- ['potion','Doações no mês','—','Aguardando API'],['potion','Recebidas no mês','—','Aguardando API'],['capital','Capital Raid','—','Aguardando API'],['alert','Alertas','0','Tudo certo!']
+
+const nav = [
+  ['🏠', 'Visão geral', '/'], ['👥', 'Jogadores', '/players'], ['⚔️', 'Guerras', '/wars'],
+  ['🛡️', 'CWL', '/cwl'], ['🏰', 'Capital', '/capital'], ['⚙️', 'Administração', '/admin'],
 ];
-function Icon({name,className='game-icon'}:{name:string,className?:string}){return <svg className={className} aria-hidden="true"><use href={`/assets/ui/icons.svg#${name}`}/></svg>}
-export default function HomePage(){return <div className="game-shell">
- <header className="hero-header"><div className="hero-content"><div className="brand-game"><img src="/assets/clash/clan-shield.svg" className="clan-shield" alt="Escudo temporário do clã"/><div><h1>Clan Manager</h1><p>#2GRURLPLL</p></div></div><div className="hero-actions"><div className="round-action">🏆</div><div className="round-action">🧔</div></div></div></header>
- <nav className="game-nav">{nav.map(([icon,label,href],i)=><Link href={href} key={href} className={`game-nav-item ${i===0?'active':''}`}><span className="nav-icon">{icon}</span><span>{label}</span></Link>)}</nav>
- <main className="game-main">
-  <section className="metrics-game">{metrics.map(([icon,label,value,note])=><article className="stone-card" key={label}><Icon name={icon}/><div className="metric-copy"><div className="stone-title">{label}</div><div className="stone-value">{value}</div><div className="stone-note">{note}</div></div></article>)}</section>
-  <section className="war-panel game-panel"><h2 className="ribbon">GUERRA ATUAL</h2><div className="war-grid"><div className="war-team"><b>Seu clã</b><div className="mini-shield">?</div><div className="stars">★★★</div><strong>—%</strong></div><div className="battle-center"><Icon name="swords" className="battle-icon"/><b>Aguardando dados da API</b></div><div className="war-team"><b>Inimigo</b><div className="mini-shield enemy">?</div><div className="stars enemy-stars">★★★</div><strong>—%</strong></div></div><div className="war-footer"><span>⚔️ Ataques usados: — / —</span><span>⏱️ Termina em: —</span><span>⚠️ Membros pendentes: —</span></div></section>
-  <section className="ranking-panel game-panel"><div className="ranking-head"><h2 className="ribbon">RANKING DA TEMPORADA</h2><Link href="/players" className="stone-button">Ver todos</Link></div><div className="ranking-list">{demoPlayers.map(p=><div className="ranking-row" key={p.rank}><div className={`rank-medal rank-${p.rank}`}>{p.rank}</div><div className="player-shield">?</div><div className="ranking-name"><strong>{p.name}</strong><span>{p.tag}</span></div><div className="ranking-stat"><small>PONTOS</small><b>{p.score}</b></div><div className="ranking-stat"><small>DOAÇÕES</small><b>{p.donations}</b></div><div className="ranking-stat mobile-hide"><small>ESTRELAS</small><b>{p.stars}</b></div></div>)}</div></section>
-  <section className="shortcut-grid"><Link href="/players" className="shortcut green"><Icon name="potion"/><strong>Melhores doadores</strong><small>Aguardando dados</small></Link><Link href="/wars" className="shortcut blue"><Icon name="star"/><strong>Mais Estrelas</strong><small>Aguardando dados</small></Link><Link href="/capital" className="shortcut purple"><Icon name="capital"/><strong>Capital Raid</strong><small>Aguardando dados</small></Link></section>
-  <section className="api-banner"><div className="barbarian">🗡️</div><div><strong>Conecte sua API da Supercell</strong><span>O escudo real do clã e os dados entram automaticamente quando a integração estiver ativa.</span></div><Link href="/admin" className="gold-button">Configurar API</Link></section>
- </main>
- </div>}
+
+const metrics = [
+  ['👥', 'Membros', '— / 50', 'Aguardando API'],
+  ['⚔️', 'Guerras vencidas', '—', 'Aguardando API'],
+  ['🔥', 'Sequência de vitórias', '—', 'Aguardando API'],
+  ['⭐', 'Estrelas no mês', '—', 'Guerras + CWL'],
+  ['🧪', 'Doações no mês', '—', 'Aguardando API'],
+  ['📦', 'Recebidas no mês', '—', 'Aguardando API'],
+  ['💎', 'Capital Raid', '—', 'Aguardando API'],
+  ['🚨', 'Alertas', '0', 'Tudo certo!'],
+];
+
+type ClanData = {
+  name?: string;
+  tag?: string;
+  badgeUrls?: { small?: string; medium?: string; large?: string };
+};
+
+async function getClan(): Promise<ClanData | null> {
+  const token = process.env.CLASH_API_TOKEN ?? process.env.SUPERCELL_API_TOKEN;
+  if (!token) return null;
+
+  try {
+    const res = await fetch(`https://api.clashofclans.com/v1/clans/${encodeURIComponent(CLAN_TAG)}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+export default async function HomePage() {
+  const clan = await getClan();
+  const badge = clan?.badgeUrls?.large ?? clan?.badgeUrls?.medium;
+
+  return (
+    <div className="game-shell">
+      <header className="hero-header">
+        <div className="hero-content">
+          <div className="brand-game">
+            {badge ? <img src={badge} className="clan-shield" alt={`Escudo de ${clan?.name ?? 'clã'}`} /> : <div className="clan-badge-placeholder">API</div>}
+            <div>
+              <h1>Clan Manager</h1>
+              <p>{clan?.name ? `${clan.name} · ` : ''}{CLAN_TAG}</p>
+            </div>
+          </div>
+          <div className="hero-actions"><div className="round-action">🏆</div><div className="round-action">🧔</div></div>
+        </div>
+      </header>
+
+      <nav className="game-nav" aria-label="Navegação principal">
+        {nav.map(([icon, label, href], i) => <Link href={href} key={href} className={`game-nav-item ${i === 0 ? 'active' : ''}`}><span className="nav-icon">{icon}</span><span>{label}</span></Link>)}
+      </nav>
+
+      <main className="game-main">
+        <section className="metrics-game">
+          {metrics.map(([icon, label, value, note]) => <article className="stone-card" key={label}><div className="metric-icon">{icon}</div><div className="metric-copy"><div className="stone-title">{label}</div><div className="stone-value">{value}</div><div className="stone-note">{note}</div></div></article>)}
+        </section>
+
+        <section className="war-panel game-panel">
+          <h2 className="ribbon">GUERRA ATUAL</h2>
+          <div className="war-grid">
+            <div className="war-team"><b>Seu clã</b><div className="mini-shield">?</div><div className="stars">★★★</div><strong>—%</strong></div>
+            <div className="battle-center"><img src="/assets/clash/war-axes.webp" className="battle-icon-image" alt="Espadas cruzadas" /><b>Aguardando dados da API</b></div>
+            <div className="war-team"><b>Inimigo</b><div className="mini-shield enemy">?</div><div className="stars enemy-stars">★★★</div><strong>—%</strong></div>
+          </div>
+          <div className="war-footer"><span>⚔️ Ataques usados: — / —</span><span>⏱️ Termina em: —</span><span>⚠️ Membros pendentes: —</span></div>
+        </section>
+
+        <section className="ranking-panel game-panel">
+          <div className="ranking-head"><h2 className="ribbon">RANKING DA TEMPORADA</h2><Link href="/players" className="stone-button">Ver todos</Link></div>
+          <div className="ranking-list">{demoPlayers.map(p => <div className="ranking-row" key={p.rank}><div className={`rank-medal rank-${p.rank}`}>{p.rank}</div><div className="player-shield">?</div><div className="ranking-name"><strong>{p.name}</strong><span>{p.tag}</span></div><div className="ranking-stat"><small>PONTOS</small><b>{p.score}</b></div><div className="ranking-stat"><small>DOAÇÕES</small><b>{p.donations}</b></div><div className="ranking-stat mobile-hide"><small>ESTRELAS</small><b>{p.stars}</b></div></div>)}</div>
+        </section>
+
+        <section className="shortcut-grid">
+          <Link href="/players" className="shortcut green"><span className="shortcut-icon">🧪</span><strong>Melhores doadores</strong><small>Aguardando dados</small></Link>
+          <Link href="/wars" className="shortcut blue"><span className="shortcut-icon">⭐</span><strong>Mais Estrelas</strong><small>Aguardando dados</small></Link>
+          <Link href="/capital" className="shortcut purple"><span className="shortcut-icon">🛡️</span><strong>Capital Raid</strong><small>Aguardando dados</small></Link>
+        </section>
+
+        <section className="api-banner"><div className="barbarian">🗡️</div><div><strong>Conecte sua API da Supercell</strong><span>O escudo real do clã e os dados entram automaticamente quando a integração estiver ativa.</span></div><Link href="/admin" className="gold-button">Configurar API</Link></section>
+      </main>
+    </div>
+  );
+}
