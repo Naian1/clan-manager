@@ -1,5 +1,2 @@
-import Link from 'next/link';
-
-export default function CwlPage() {
-  return <main className="main"><Link href="/" className="eyebrow">← Voltar ao painel</Link><div className="topbar"><div><h1 className="title">CWL</h1><div className="small">Desempenho por rodada, estrelas, destruição e ranking interno.</div></div></div><section className="card empty"><div><strong>Aguardando temporada</strong>As rodadas e ataques de CWL aparecerão aqui assim que a integração estiver ativa.</div></section></main>;
-}
+import GameNav from '../../components/GameNav';
+export default function CwlPage(){return <div className="game-shell"><GameNav active="cwl"/><main className="main"><div className="topbar"><div><h1 className="title">CWL</h1><div className="small">Liga de Guerra de Clãs, estrelas, ataques, desempenho e histórico por temporada.</div></div></div><section className="card empty"><div><strong>Sem dados de CWL ainda</strong>As informações aparecerão aqui quando a sincronização da temporada estiver disponível.</div></section></main></div>}

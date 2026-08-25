@@ -1,5 +1,2 @@
-import Link from 'next/link';
-
-export default function WarsPage() {
-  return <main className="main"><Link href="/" className="eyebrow">← Voltar ao painel</Link><div className="topbar"><div><h1 className="title">Guerras</h1><div className="small">Guerra atual, ataques, estrelas, destruição, triplos e faltas.</div></div></div><section className="card empty"><div><strong>Sem dados de guerra ainda</strong>O sistema vai salvar cada guerra e cada ataque para que o histórico não dependa do que a API continuar exibindo no futuro.</div></section></main>;
-}
+import GameNav from '../../components/GameNav';
+export default function WarsPage(){return <div className="game-shell"><GameNav active="wars"/><main className="main"><div className="topbar"><div><h1 className="title">Guerras</h1><div className="small">Guerra atual, ataques, estrelas, destruição, triplos e faltas.</div></div></div><section className="card empty"><div><strong>Sem dados de guerra ainda</strong>O sistema vai salvar cada guerra e cada ataque para manter o histórico completo do clã.</div></section></main></div>}

@@ -1,5 +1,2 @@
-import Link from 'next/link';
-
-export default function AdminPage() {
-  return <main className="main"><Link href="/" className="eyebrow">← Voltar ao painel</Link><div className="topbar"><div><h1 className="title">Administração</h1><div className="small">Acesso de líderes, regras, pontuação, sincronizações e auditoria.</div></div></div><section className="grid cols"><article className="card"><div className="section-head"><h2>Acesso</h2><span className="badge">Preparado</span></div><p className="small">O login será pelo Google via Supabase Auth e só e-mails presentes na allowlist poderão entrar. Líder, colíder e viewer terão permissões diferentes.</p></article><article className="card"><div className="section-head"><h2>Integração Supercell</h2><span className="badge">Pendente</span></div><p className="small">A nova key ainda não foi criada. Isso é intencional: primeiro definimos uma saída de rede compatível com a allowlist de IP da Supercell.</p></article></section></main>;
-}
+import GameNav from '../../components/GameNav';
+export default function AdminPage(){return <div className="game-shell"><GameNav active="admin"/><main className="main"><div className="topbar"><div><h1 className="title">Administração</h1><div className="small">Configurações do painel, líderes autorizados e regras administrativas do clã.</div></div></div><section className="card empty"><div><strong>Painel administrativo</strong>As ferramentas de gestão ficarão organizadas aqui para líderes e co-líderes autorizados.</div></section></main></div>}
