@@ -20,7 +20,7 @@ for (const source of sources) {
 }
 
 const rasterSources = [
-  'hero-bg.webp', 'wood-tab.webp', 'war-axes.webp',
+  'hero-bg.webp', 'wood-tab.webp', 'war-axes.webp', 'shield-fallback.webp',
   'panel-ranking.webp', 'panel-stone.webp', 'panel-war.webp', 'ranking-frame.webp', 'ribbon-red.webp',
   'members.webp', 'swords.webp', 'fire.webp', 'star.webp', 'potion-green.webp', 'potion-purple.webp', 'capital.webp', 'alert.webp'
 ];
