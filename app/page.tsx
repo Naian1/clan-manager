@@ -90,7 +90,7 @@ export default async function HomePage() {
         </section>
 
         <section className="ranking-panel game-panel">
-          <img src="/assets/clash/ranking-frame.png" className="panel-frame-bg ranking-frame-bg" alt="" aria-hidden="true" />
+          <img src="/assets/clash/panel-ranking.png" className="panel-frame-bg ranking-frame-bg" alt="" aria-hidden="true" />
           <div className="ranking-head"><h2 className="ribbon">RANKING DA TEMPORADA</h2><Link href="/players" className="stone-button">Ver todos</Link></div>
           <div className="ranking-list">{demoPlayers.map(p => <div className="ranking-row" key={p.rank}><div className={`rank-medal rank-${p.rank}`}>{p.rank}</div><div className="player-shield">?</div><div className="ranking-name"><strong>{p.name}</strong><span>{p.tag}</span></div><div className="ranking-stat"><small>PONTOS</small><b>{p.score}</b></div><div className="ranking-stat"><small>DOAÇÕES</small><b>{p.donations}</b></div><div className="ranking-stat mobile-hide"><small>ESTRELAS</small><b>{p.stars}</b></div></div>)}</div>
         </section>
