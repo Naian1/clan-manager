@@ -1,0 +1,1 @@
+Raster asset refresh in progress. Generated WebP assets are committed via Git blobs; CSS references individual files (no atlas).
