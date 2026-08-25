@@ -1,9 +1,14 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const dir = join(process.cwd(), 'public', 'assets', 'clash');
-const files = await readdir(dir);
-const sources = files.filter((name) => name.endsWith('.webp.b64'));
+const sources = [
+  'panel-ranking.webp.b64',
+  'panel-stone.webp.b64',
+  'panel-war.webp.b64',
+  'ranking-frame.webp.b64',
+  'ribbon-red.webp.b64',
+];
 
 for (const source of sources) {
   const input = join(dir, source);
