@@ -43,3 +43,46 @@ export type ClashClan = {
   clanCapitalPoints?: number;
   memberList?: ClashClanMember[];
 };
+
+export type ClashWarAttack = {
+  attackerTag: string;
+  defenderTag: string;
+  stars: number;
+  destructionPercentage: number;
+  order?: number;
+  duration?: number;
+};
+
+export type ClashWarMember = {
+  tag: string;
+  name: string;
+  townhallLevel?: number;
+  townHallLevel?: number;
+  mapPosition: number;
+  opponentAttacks?: number;
+  bestOpponentAttack?: ClashWarAttack;
+  attacks?: ClashWarAttack[];
+};
+
+export type ClashWarClan = {
+  tag: string;
+  name: string;
+  badgeUrls?: ClashIconUrls;
+  clanLevel?: number;
+  attacks?: number;
+  stars?: number;
+  destructionPercentage?: number;
+  members?: ClashWarMember[];
+};
+
+export type ClashCurrentWar = {
+  state: 'notInWar' | 'preparation' | 'inWar' | 'warEnded' | string;
+  teamSize?: number;
+  attacksPerMember?: number;
+  battleModifier?: string;
+  preparationStartTime?: string;
+  startTime?: string;
+  endTime?: string;
+  clan?: ClashWarClan;
+  opponent?: ClashWarClan;
+};
