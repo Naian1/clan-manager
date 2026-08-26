@@ -1,5 +1,3 @@
-import sharp from 'sharp';
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -10,13 +8,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lev
     return new Response('Town Hall inválido.', { status: 400 });
   }
 
-  const source = `https://assets.clashk.ing/buildings/home-village/town_hall/level_${townHallLevel}.webp`;
+  const original = `assets.clashk.ing/buildings/home-village/town_hall/level_${townHallLevel}.webp`;
+  const source = `https://images.weserv.nl/?url=${encodeURIComponent(original)}&output=png`;
   try {
     const response = await fetch(source, { next: { revalidate: 604800 } });
     if (!response.ok) return new Response('Arte do Town Hall indisponível.', { status: 404 });
-    const input = Buffer.from(await response.arrayBuffer());
-    const png = await sharp(input).png({ compressionLevel: 9 }).toBuffer();
-    return new Response(new Uint8Array(png), {
+    return new Response(await response.arrayBuffer(), {
       headers: {
         'Content-Type': 'image/png',
         'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000',
