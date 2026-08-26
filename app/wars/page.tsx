@@ -112,12 +112,12 @@ export default async function Page() {
 
     <section className="war-history-section">
       <div className="war-map-heading"><div><span className="eyebrow">HISTÓRICO MONITORADO</span><h3>Guerras arquivadas</h3></div><span>{historyResult.length} carregadas</span></div>
-      {historyResult.length ? <div className="war-history-list">{historyResult.map((war: any) => <article className="war-history-row" key={war.id}>
+      {historyResult.length ? <div className="war-history-list">{historyResult.map((war: any) => <Link className="war-history-link" href={`/wars/${war.id}`} key={war.id}><article className="war-history-row">
         <div className={`war-result war-result-${war.result ?? 'unknown'}`}>{historyResultLabel(war.result)}</div>
         <div className="war-history-opponent">{war.opponent_badge_url ? <img src={war.opponent_badge_url} alt=""/> : null}<span><strong>{war.opponent_name ?? 'Adversário'}</strong><small>{war.opponent_tag ?? '—'} · {formatClashTime(war.end_time)}</small></span></div>
         <div className="war-history-score"><span><b>{war.clan_stars ?? 0} ★</b><small>{Number(war.clan_destruction ?? 0).toFixed(2)}%</small></span><em>×</em><span><b>{war.opponent_stars ?? 0} ★</b><small>{Number(war.opponent_destruction ?? 0).toFixed(2)}%</small></span></div>
-        <div className="war-history-attacks"><small>ATAQUES</small><b>{war.clan_attacks ?? 0} × {war.opponent_attacks ?? 0}</b></div>
-      </article>)}</div> : <div className="war-history-empty"><strong>O monitoramento começa agora</strong><span>O sync já está preparado para backfill do War Log e para arquivar cada ataque observado da guerra atual.</span></div>}
+        <div className="war-history-attacks"><small>DETALHES</small><b>Abrir ›</b></div>
+      </article></Link>)}</div> : <div className="war-history-empty"><strong>O monitoramento começa agora</strong><span>O sync já está preparado para backfill do War Log e para arquivar cada ataque observado da guerra atual.</span></div>}
     </section>
   </ClashShell>;
 }
