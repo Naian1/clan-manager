@@ -65,7 +65,7 @@ async function verifyGithubOidc(token: string) {
   if (!jwk) return false;
 
   try {
-    const key = createPublicKey({ key: jwk, format: 'jwk' });
+    const key = createPublicKey({ key: jwk as any, format: 'jwk' });
     return verifySignature(
       'RSA-SHA256',
       Buffer.from(`${parts[0]}.${parts[1]}`),
