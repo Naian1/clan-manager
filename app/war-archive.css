@@ -1,0 +1,46 @@
+.war-history-link { display:block; border-radius:14px; transition:background .15s ease, transform .15s ease; }
+.war-history-link:hover { background:rgba(255,255,255,.035); transform:translateY(-1px); }
+.war-history-link:focus-visible { outline:2px solid rgba(255,211,104,.75); outline-offset:2px; }
+
+.archive-war-toolbar {
+  margin:0 0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.archive-war-toolbar > a {
+  padding:9px 12px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:10px;
+  background:rgba(6,25,32,.55);
+  color:#f3dfb7;
+  font:800 10px Arial,sans-serif;
+}
+.archive-war-toolbar .war-result { min-width:88px; }
+.archived-war-summary { margin-top:0; }
+
+.archive-detail-banner,
+.archive-detail-unavailable {
+  margin-top:24px;
+  padding:18px 20px;
+  border:1px solid rgba(255,214,112,.2);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(64,46,21,.42),rgba(9,28,35,.7));
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 14px 28px rgba(0,0,0,.22);
+}
+.archive-detail-banner { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.archive-detail-banner strong { color:#ffe19b; font:400 20px 'Lilita One',Arial,sans-serif; }
+.archive-detail-banner span { max-width:680px; color:#adc1c1; font:10px/1.5 Arial,sans-serif; text-align:right; }
+.archive-detail-unavailable h3 { margin:7px 0 8px; color:#fff0c8; font:400 24px/1.05 'Lilita One',Arial,sans-serif; }
+.archive-detail-unavailable p { max-width:760px; margin:0; color:#a9bfc0; font:11px/1.55 Arial,sans-serif; }
+
+@media (max-width:760px) {
+  .war-history-link { border-radius:10px; }
+  .archive-war-toolbar { align-items:stretch; }
+  .archive-war-toolbar > a { display:grid; place-items:center; }
+  .archive-detail-banner { align-items:flex-start; flex-direction:column; }
+  .archive-detail-banner span { text-align:left; }
+  .archive-detail-unavailable { padding:16px; }
+  .archive-detail-unavailable h3 { font-size:21px; }
+}
