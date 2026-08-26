@@ -11,6 +11,21 @@ export type ClashLeague = {
   iconUrls?: ClashIconUrls;
 };
 
+export type ClashLabel = {
+  id?: number;
+  name?: string;
+  iconUrls?: ClashIconUrls;
+};
+
+export type ClashPlayerItem = {
+  name: string;
+  level?: number;
+  maxLevel?: number;
+  village?: string;
+  superTroopIsActive?: boolean;
+  equipment?: Array<{ name?: string; level?: number; maxLevel?: number }>;
+};
+
 export type ClashClanMember = {
   tag: string;
   name: string;
@@ -25,6 +40,7 @@ export type ClashClanMember = {
   previousClanRank?: number;
   expLevel?: number;
   league?: ClashLeague;
+  leagueTier?: ClashLeague;
 };
 
 export type ClashClan = {
@@ -40,8 +56,37 @@ export type ClashClan = {
   warTies?: number;
   winStreak?: number;
   clanPoints?: number;
+  clanBuilderBasePoints?: number;
   clanCapitalPoints?: number;
   memberList?: ClashClanMember[];
+};
+
+export type ClashPlayer = {
+  tag: string;
+  name: string;
+  townHallLevel?: number;
+  townHallWeaponLevel?: number;
+  expLevel?: number;
+  trophies?: number;
+  bestTrophies?: number;
+  warStars?: number;
+  attackWins?: number;
+  defenseWins?: number;
+  builderHallLevel?: number;
+  builderBaseTrophies?: number;
+  bestBuilderBaseTrophies?: number;
+  donations?: number;
+  donationsReceived?: number;
+  role?: string;
+  warPreference?: string;
+  league?: ClashLeague;
+  leagueTier?: ClashLeague;
+  labels?: ClashLabel[];
+  troops?: ClashPlayerItem[];
+  heroes?: ClashPlayerItem[];
+  spells?: ClashPlayerItem[];
+  heroEquipment?: ClashPlayerItem[];
+  achievements?: Array<{ name?: string; stars?: number; value?: number; target?: number; info?: string }>;
 };
 
 export type ClashWarAttack = {
@@ -85,4 +130,19 @@ export type ClashCurrentWar = {
   endTime?: string;
   clan?: ClashWarClan;
   opponent?: ClashWarClan;
+};
+
+export type ClashWarLogEntry = {
+  result?: string;
+  endTime?: string;
+  teamSize?: number;
+  attacksPerMember?: number;
+  battleModifier?: string;
+  clan?: ClashWarClan;
+  opponent?: ClashWarClan;
+};
+
+export type ClashWarLog = {
+  items?: ClashWarLogEntry[];
+  paging?: unknown;
 };
