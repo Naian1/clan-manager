@@ -21,6 +21,8 @@ export type Clan = {
   last_synced_at: string | null;
 };
 
+export type ClanBranding = Pick<Clan, 'tag' | 'name' | 'badge_url'>;
+
 export type Player = {
   id: number;
   tag: string;
@@ -37,6 +39,20 @@ export type Player = {
 };
 
 export type DashboardData = { clan: Clan | null; players: Player[]; configured: boolean; error: string | null };
+
+export async function getClanBranding(): Promise<ClanBranding | null> {
+  const supabase = getSupabaseAdmin() ?? await getSupabaseServer();
+  if (!supabase) return null;
+
+  const result = await supabase
+    .from('clans')
+    .select('tag,name,badge_url')
+    .eq('tag', CLAN_TAG)
+    .maybeSingle();
+
+  if (result.error || !result.data) return null;
+  return result.data as ClanBranding;
+}
 
 export async function getDashboardData(): Promise<DashboardData> {
   const supabase = getSupabaseAdmin() ?? await getSupabaseServer();
