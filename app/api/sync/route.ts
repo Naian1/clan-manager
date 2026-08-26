@@ -2,22 +2,14 @@ import { syncClanManager } from '../../../lib/services/sync-clan';
 import { syncCapitalMonitoring } from '../../../lib/services/sync-capital';
 import { syncCwlMonitoring } from '../../../lib/services/sync-cwl';
 import { syncWarMonitoring } from '../../../lib/services/sync-war';
+import { isSyncAuthorized } from '../../../lib/sync-auth';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-function isAuthorized(request: Request) {
-  const authorization = request.headers.get('authorization');
-  const allowedSecrets = [process.env.SYNC_SECRET, process.env.CRON_SECRET].filter(Boolean);
-  return allowedSecrets.some((secret) => authorization === `Bearer ${secret}`);
-}
-
 async function synchronize(request: Request) {
-  if (!process.env.SYNC_SECRET && !process.env.CRON_SECRET) {
-    return Response.json({ ok: false, error: 'SYNC_SECRET ou CRON_SECRET não configurado.' }, { status: 503 });
-  }
-  if (!isAuthorized(request)) {
+  if (!(await isSyncAuthorized(request))) {
     return Response.json({ ok: false, error: 'Não autorizado.' }, { status: 401 });
   }
 
