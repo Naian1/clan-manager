@@ -61,6 +61,31 @@ export type ClashClan = {
   memberList?: ClashClanMember[];
 };
 
+export type ClashLeagueBattleLogEntry = {
+  opponentPlayerTag?: string;
+  opponentName?: string;
+  stars?: number;
+  destructionPercentage?: number;
+  trophies?: number;
+  creationTime?: string;
+};
+
+export type ClashPlayerLeagueGroup = {
+  members?: Array<{
+    playerTag?: string;
+    playerName?: string;
+    clanTag?: string;
+    clanName?: string;
+    leagueTrophies?: number;
+    attackWinCount?: number;
+    attackLoseCount?: number;
+    defenseWinCount?: number;
+    defenseLoseCount?: number;
+  }>;
+  attackLogs?: ClashLeagueBattleLogEntry[];
+  defenseLogs?: ClashLeagueBattleLogEntry[];
+};
+
 export type ClashPlayer = {
   tag: string;
   name: string;
@@ -87,6 +112,10 @@ export type ClashPlayer = {
   spells?: ClashPlayerItem[];
   heroEquipment?: ClashPlayerItem[];
   achievements?: Array<{ name?: string; stars?: number; value?: number; target?: number; info?: string }>;
+  currentLeagueGroupTag?: string;
+  currentLeagueSeasonId?: string | number;
+  previousLeagueGroupTag?: string;
+  previousLeagueSeasonId?: string | number;
 };
 
 export type ClashWarAttack = {
@@ -145,4 +174,18 @@ export type ClashWarLogEntry = {
 export type ClashWarLog = {
   items?: ClashWarLogEntry[];
   paging?: unknown;
+};
+
+export type ClashCwlLeagueGroup = {
+  tag?: string;
+  state: string;
+  season: string;
+  clans?: Array<{
+    tag: string;
+    clanLevel?: number;
+    name: string;
+    badgeUrls?: ClashIconUrls;
+    members?: Array<{ tag: string; townHallLevel?: number; name: string }>;
+  }>;
+  rounds?: Array<{ warTags?: string[] }>;
 };

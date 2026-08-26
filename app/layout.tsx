@@ -4,6 +4,7 @@ import './raster-overrides.css';
 import './clan-badge.css';
 import './war-live.css';
 import './profile-live.css';
+import './current-fixes.css';
 
 export const metadata: Metadata = {
   title: 'Clan Manager',

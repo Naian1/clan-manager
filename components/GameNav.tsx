@@ -1,9 +1,11 @@
 import Link from 'next/link';
 
 const items = [
-  ['home', 'Visão geral', '/', 'home'], ['players', 'Jogadores', '/players', 'players'],
-  ['wars', 'Guerras', '/wars', 'wars'], ['cwl', 'CWL', '/cwl', 'cwl'],
-  ['capital', 'Capital', '/capital', 'capital'], ['admin', 'Admin', '/admin', 'admin'],
+  ['home', 'Visão geral', '/', 'home'],
+  ['players', 'Jogadores', '/players', 'players'],
+  ['wars', 'Guerras', '/wars', 'wars'],
+  ['cwl', 'CWL', '/cwl', 'cwl'],
+  ['capital', 'Capital', '/capital', 'capital'],
 ] as const;
 
 export default function GameNav({ active }: { active: string }) {

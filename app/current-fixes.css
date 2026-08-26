@@ -1,0 +1,174 @@
+.game-nav {
+  width: min(980px, calc(100% - 18px));
+  min-height: 0;
+  margin: -34px auto 0;
+  padding: 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.game-nav-item {
+  height: 58px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 0;
+  background: url('/assets/clash/nav-wood-final.png') center / 100% 100% no-repeat;
+  color: #fff0ca;
+  text-shadow: 0 2px 1px rgba(46, 21, 10, .92);
+  filter: drop-shadow(0 6px 4px rgba(0,0,0,.42));
+}
+
+.game-nav-item:hover:not(.active) {
+  background: url('/assets/clash/nav-wood-final.png') center / 100% 100% no-repeat;
+  color: white;
+  transform: translateY(-2px);
+  filter: brightness(1.07) drop-shadow(0 7px 5px rgba(0,0,0,.48));
+}
+
+.game-nav-item.active,
+.game-nav-item.active:hover {
+  border: 0;
+  border-radius: 0;
+  background: url('/assets/clash/nav-active-final.png') center / 100% 100% no-repeat;
+  color: #fff9df;
+  box-shadow: none;
+  transform: translateY(-3px);
+  filter: drop-shadow(0 8px 5px rgba(0,0,0,.52));
+}
+
+.player-league-trophy-row {
+  width: 100%;
+  margin-top: 11px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.player-league-trophy-row span {
+  margin: 0;
+  padding: 8px 7px;
+  border: 1px solid rgba(255,220,131,.12);
+  border-radius: 9px;
+  background: rgba(0,0,0,.17);
+}
+
+.player-league-trophy-row small {
+  margin: 0;
+  display: block;
+  color: #8ca9ac;
+  font: 800 7px Arial, sans-serif;
+  letter-spacing: .08em;
+}
+
+.player-league-trophy-row b {
+  display: block;
+  margin-top: 3px;
+  color: #ffd86d;
+  font: 400 18px 'Lilita One', Arial, sans-serif;
+}
+
+.player-league-battles {
+  margin-top: 7px;
+  color: #91abad;
+  font: 8px Arial, sans-serif;
+}
+
+.player-sort-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.player-sort-links > span {
+  margin-right: 2px;
+  color: #a9c0c2;
+  font: 800 9px Arial, sans-serif;
+  letter-spacing: .06em;
+}
+
+.player-sort-links a {
+  padding: 7px 9px;
+  border: 1px solid rgba(255,218,128,.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,.045);
+  color: #e9dcb8;
+  font: 800 9px Arial, sans-serif;
+}
+
+.player-sort-links a.active {
+  border-color: rgba(255,212,98,.68);
+  background: rgba(173,74,38,.48);
+  color: #fff4cf;
+}
+
+.cwl-summary-grid {
+  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cwl-summary-card {
+  min-height: 112px;
+  padding: 17px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 17px;
+  background: rgba(7,27,35,.72);
+  box-shadow: 0 12px 24px rgba(0,0,0,.26);
+}
+
+.cwl-summary-card small {
+  color: #85a4a7;
+  font: 800 8px Arial, sans-serif;
+  letter-spacing: .1em;
+}
+
+.cwl-summary-card strong {
+  display: block;
+  margin-top: 8px;
+  color: #ffe6a4;
+  font: 400 24px 'Lilita One', Arial, sans-serif;
+}
+
+.cwl-summary-card span {
+  display: block;
+  margin-top: 5px;
+  color: #a9bdbe;
+  font: 9px Arial, sans-serif;
+}
+
+@media (max-width: 900px) {
+  .cwl-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  .game-nav {
+    width: calc(100% - 10px);
+    min-height: 0;
+    margin-top: -28px;
+    padding: 0;
+    gap: 2px;
+    border-radius: 0;
+  }
+
+  .game-nav-item {
+    height: 50px;
+    padding: 0 2px;
+    gap: 1px;
+    flex-direction: column;
+    font-size: 7px;
+  }
+
+  .game-nav-item .game-icon { width: 19px; height: 19px; }
+  .player-league-trophy-row { margin-left: auto; max-width: 220px; }
+  .player-league-battles { margin-left: auto; }
+  .cwl-summary-grid { gap: 8px; }
+  .cwl-summary-card { min-height: 96px; padding: 13px; }
+  .cwl-summary-card strong { font-size: 20px; }
+}

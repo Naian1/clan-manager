@@ -1,4 +1,4 @@
-import type { ClashClan, ClashCurrentWar, ClashPlayer, ClashWarLog } from './types';
+import type { ClashClan, ClashCurrentWar, ClashCwlLeagueGroup, ClashPlayer, ClashPlayerLeagueGroup, ClashWarLog } from './types';
 
 const OFFICIAL_API_URL = 'https://api.clashofclans.com';
 
@@ -61,4 +61,17 @@ export function getWarLog(tag: string, limit = 20): Promise<ClashWarLog> {
 
 export function getPlayer(tag: string): Promise<ClashPlayer> {
   return request<ClashPlayer>(`/v1/players/${encodeURIComponent(normalizeTag(tag))}`);
+}
+
+export function getPlayerLeagueGroup(playerTag: string, leagueGroupTag: string, leagueSeasonId: string | number): Promise<ClashPlayerLeagueGroup> {
+  const query = new URLSearchParams({ playerTag: normalizeTag(playerTag) });
+  return request<ClashPlayerLeagueGroup>(`/v1/leaguegroup/${encodeURIComponent(normalizeTag(leagueGroupTag))}/${encodeURIComponent(String(leagueSeasonId))}?${query.toString()}`);
+}
+
+export function getCwlLeagueGroup(clanTag: string): Promise<ClashCwlLeagueGroup> {
+  return request<ClashCwlLeagueGroup>(`/v1/clans/${encodeURIComponent(normalizeTag(clanTag))}/currentwar/leaguegroup`);
+}
+
+export function getCwlWar(warTag: string): Promise<ClashCurrentWar> {
+  return request<ClashCurrentWar>(`/v1/clanwarleagues/wars/${encodeURIComponent(normalizeTag(warTag))}`);
 }
