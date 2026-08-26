@@ -1,4 +1,5 @@
 import { getSupabaseServer } from './supabase/server';
+import { getSupabaseAdmin } from './supabase/admin';
 
 export const CLAN_TAG = '#2GRURLPLL';
 
@@ -38,7 +39,7 @@ export type Player = {
 export type DashboardData = { clan: Clan | null; players: Player[]; configured: boolean; error: string | null };
 
 export async function getDashboardData(): Promise<DashboardData> {
-  const supabase = await getSupabaseServer();
+  const supabase = getSupabaseAdmin() ?? await getSupabaseServer();
   if (!supabase) return { clan: null, players: [], configured: false, error: null };
 
   const clanResult = await supabase.from('clans').select('*').eq('tag', CLAN_TAG).maybeSingle();
