@@ -3,6 +3,7 @@ import './globals.css';
 import './raster-overrides.css';
 import './clan-badge.css';
 import './war-live.css';
+import './war-archive.css';
 import './profile-live.css';
 import './current-fixes.css';
 
