@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getClan } from '../clash/client';
-import type { ClashClanMember } from '../clash/types';
+import { getClan, getPlayer } from '../clash/client';
+import type { ClashClanMember, ClashPlayer } from '../clash/types';
 import { getSupabaseAdmin } from '../supabase/admin';
 
 export const DEFAULT_CLAN_TAG = '#2GRURLPLL';
@@ -9,12 +9,15 @@ type StoredPlayer = {
   id: number;
   tag: string;
   active: boolean;
+  war_stars?: number | null;
+  war_stars_baseline?: number | null;
 };
 
 export type ClanSyncResult = {
   clanTag: string;
   clanName: string;
   membersFound: number;
+  profilesFetched: number;
   membersActivated: number;
   membersDeactivated: number;
   snapshotsCreated: number;
@@ -31,27 +34,64 @@ function throwIfError(error: { message: string } | null, operation: string) {
   if (error) throw new Error(`${operation}: ${error.message}`);
 }
 
-function memberRow(member: ClashClanMember, clanId: number, timestamp: string) {
+function bestLeague(member: ClashClanMember, profile?: ClashPlayer | null) {
+  return profile?.leagueTier ?? profile?.league ?? member.leagueTier ?? member.league;
+}
+
+function memberRow(member: ClashClanMember, clanId: number, timestamp: string, profile?: ClashPlayer | null) {
+  const league = bestLeague(member, profile);
   return {
     tag: member.tag,
     clan_id: clanId,
-    name: member.name,
-    role: member.role ?? null,
-    town_hall_level: member.townHallLevel ?? null,
-    trophies: member.trophies ?? null,
-    best_trophies: member.bestTrophies ?? null,
-    war_stars: member.warStars ?? 0,
-    donations: member.donations ?? 0,
-    donations_received: member.donationsReceived ?? 0,
+    name: profile?.name ?? member.name,
+    role: profile?.role ?? member.role ?? null,
+    town_hall_level: profile?.townHallLevel ?? member.townHallLevel ?? null,
+    town_hall_weapon_level: profile?.townHallWeaponLevel ?? null,
+    trophies: profile?.trophies ?? member.trophies ?? null,
+    best_trophies: profile?.bestTrophies ?? member.bestTrophies ?? null,
+    war_stars: profile?.warStars ?? member.warStars ?? null,
+    attack_wins: profile?.attackWins ?? null,
+    defense_wins: profile?.defenseWins ?? null,
+    donations: profile?.donations ?? member.donations ?? 0,
+    donations_received: profile?.donationsReceived ?? member.donationsReceived ?? 0,
     clan_rank: member.clanRank ?? null,
     previous_clan_rank: member.previousClanRank ?? null,
-    exp_level: member.expLevel ?? null,
-    league_name: member.league?.name ?? null,
-    league_icon_url: member.league?.iconUrls?.medium ?? member.league?.iconUrls?.small ?? null,
+    exp_level: profile?.expLevel ?? member.expLevel ?? null,
+    league_id: league?.id ?? null,
+    league_name: league?.name ?? null,
+    league_icon_url: league?.iconUrls?.medium ?? league?.iconUrls?.small ?? league?.iconUrls?.tiny ?? null,
+    builder_hall_level: profile?.builderHallLevel ?? null,
+    builder_base_trophies: profile?.builderBaseTrophies ?? null,
+    best_builder_base_trophies: profile?.bestBuilderBaseTrophies ?? null,
+    war_preference: profile?.warPreference ?? null,
+    profile_synced_at: profile ? timestamp : null,
     active: true,
     last_seen_at: timestamp,
     updated_at: timestamp,
   };
+}
+
+async function fetchProfiles(members: ClashClanMember[]) {
+  const profiles = new Map<string, ClashPlayer>();
+  const batchSize = 8;
+
+  for (let index = 0; index < members.length; index += batchSize) {
+    const batch = members.slice(index, index + batchSize);
+    const results = await Promise.all(batch.map(async (member) => {
+      try {
+        return await getPlayer(member.tag);
+      } catch (error) {
+        console.warn('[clan-sync] perfil não carregado', member.tag, error instanceof Error ? error.message : error);
+        return null;
+      }
+    }));
+
+    results.forEach((profile) => {
+      if (profile?.tag) profiles.set(profile.tag, profile);
+    });
+  }
+
+  return profiles;
 }
 
 async function markSyncFailed(
@@ -76,6 +116,7 @@ export async function syncClanManager(): Promise<ClanSyncResult> {
     const clan = await getClan(clanTag);
     const timestamp = new Date().toISOString();
     const members = clan.memberList ?? [];
+    const profiles = await fetchProfiles(members);
 
     const clanResult = await database
       .from('clans')
@@ -85,8 +126,12 @@ export async function syncClanManager(): Promise<ClanSyncResult> {
         badge_url: clan.badgeUrls?.large ?? clan.badgeUrls?.medium ?? null,
         clan_level: clan.clanLevel ?? null,
         members: clan.members ?? members.length,
+        war_league_id: clan.warLeague?.id ?? null,
         war_league: clan.warLeague?.name ?? null,
+        war_league_icon_url: clan.warLeague?.iconUrls?.medium ?? clan.warLeague?.iconUrls?.small ?? null,
+        capital_league_id: clan.capitalLeague?.id ?? null,
         capital_league: clan.capitalLeague?.name ?? null,
+        capital_league_icon_url: clan.capitalLeague?.iconUrls?.medium ?? clan.capitalLeague?.iconUrls?.small ?? null,
         war_wins: clan.warWins ?? 0,
         war_losses: clan.warLosses ?? 0,
         war_ties: clan.warTies ?? 0,
@@ -113,7 +158,7 @@ export async function syncClanManager(): Promise<ClanSyncResult> {
 
     const previousResult = await database
       .from('players')
-      .select('id,tag,active')
+      .select('id,tag,active,war_stars,war_stars_baseline')
       .eq('clan_id', clanId);
     throwIfError(previousResult.error, 'Não foi possível ler os jogadores atuais');
     const previousPlayers = (previousResult.data ?? []) as StoredPlayer[];
@@ -123,18 +168,29 @@ export async function syncClanManager(): Promise<ClanSyncResult> {
     if (members.length > 0) {
       const upsertResult = await database
         .from('players')
-        .upsert(members.map((member) => memberRow(member, clanId, timestamp)), { onConflict: 'tag' });
+        .upsert(members.map((member) => memberRow(member, clanId, timestamp, profiles.get(member.tag))), { onConflict: 'tag' });
       throwIfError(upsertResult.error, 'Não foi possível salvar os jogadores');
     }
 
     const currentResult = await database
       .from('players')
-      .select('id,tag,active')
+      .select('id,tag,active,war_stars,war_stars_baseline')
       .eq('clan_id', clanId)
       .in('tag', members.length > 0 ? members.map((member) => member.tag) : ['__none__']);
     throwIfError(currentResult.error, 'Não foi possível reler os jogadores');
     const currentPlayers = (currentResult.data ?? []) as StoredPlayer[];
     const currentByTag = new Map(currentPlayers.map((player) => [player.tag, player]));
+
+    for (const player of currentPlayers) {
+      if (player.war_stars_baseline == null && player.war_stars != null) {
+        const baselineResult = await database
+          .from('players')
+          .update({ war_stars_baseline: player.war_stars, war_stars_baseline_at: timestamp })
+          .eq('id', player.id)
+          .is('war_stars_baseline', null);
+        throwIfError(baselineResult.error, 'Não foi possível registrar o baseline de War Stars');
+      }
+    }
 
     const membershipsResult = await database
       .from('player_memberships')
@@ -173,12 +229,13 @@ export async function syncClanManager(): Promise<ClanSyncResult> {
     const snapshots = members.flatMap((member) => {
       const player = currentByTag.get(member.tag);
       if (!player) return [];
+      const profile = profiles.get(member.tag);
       return [{
         player_id: player.id,
-        trophies: member.trophies ?? null,
-        war_stars: member.warStars ?? null,
-        donations: member.donations ?? null,
-        donations_received: member.donationsReceived ?? null,
+        trophies: profile?.trophies ?? member.trophies ?? null,
+        war_stars: profile?.warStars ?? member.warStars ?? null,
+        donations: profile?.donations ?? member.donations ?? null,
+        donations_received: profile?.donationsReceived ?? member.donationsReceived ?? null,
         clan_rank: member.clanRank ?? null,
         captured_at: timestamp,
       }];
@@ -205,6 +262,7 @@ export async function syncClanManager(): Promise<ClanSyncResult> {
       clanTag: clan.tag,
       clanName: clan.name,
       membersFound: members.length,
+      profilesFetched: profiles.size,
       membersActivated,
       membersDeactivated: playersLeaving.length,
       snapshotsCreated: snapshots.length,
