@@ -1,1 +1,0 @@
-Raster UI assets for Clan Manager. PNG only; no SVG assets are used by the dashboard UI.

@@ -1,2 +1,7 @@
-import GameNav from '../../components/GameNav';
-export default function CapitalPage(){return <div className="game-shell"><GameNav active="capital"/><main className="main"><div className="topbar"><div><h1 className="title">Capital</h1><div className="small">Capital Raid, medalhas, ataques e desempenho no fim de semana.</div></div></div><section className="card empty"><div><strong>Sem dados de Capital ainda</strong>Os dados de raid aparecerão aqui quando forem sincronizados.</div></section></main></div>}
+import ClashShell from '../../components/ClashShell';
+
+export default function Page() {
+  return <ClashShell active="capital" title="Capital" description="Raid Weekend, Capital Gold, ataques e participação dos membros.">
+    <section className="feature-grid"><article className="feature-panel"><div><span className="eyebrow">DADOS HISTÓRICOS</span><h3>Nenhum Raid Weekend arquivado</h3><p>A Capital será preenchida pela sincronização oficial do clã.</p></div></article><article className="feature-panel compact"><span className="eyebrow">PRÓXIMO PASSO</span><h3>Conecte a sincronização</h3><p>Configure a chave oficial da Supercell e execute a primeira sincronização na área Admin.</p><a className="primary-button" href="/admin">Ir para Admin →</a></article></section>
+  </ClashShell>;
+}

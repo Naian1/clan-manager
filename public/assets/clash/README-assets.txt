@@ -1,1 +1,0 @@
-Raster asset pack generated for the Clan Manager UI. Individual WebP assets are being used by the dashboard instead of the previous atlas/SVG experiment.

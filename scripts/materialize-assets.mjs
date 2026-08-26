@@ -3,13 +3,9 @@ import { join, basename } from 'node:path';
 import sharp from 'sharp';
 
 const dir = join(process.cwd(), 'public', 'assets', 'clash');
-const sources = [
-  'panel-ranking.webp.b64',
-  'panel-stone.webp.b64',
-  'panel-war.webp.b64',
-  'ranking-frame.webp.b64',
-  'ribbon-red.webp.b64',
-];
+// The UI uses the committed PNG/SVG pack. Keep this list limited to the
+// raster files that are actually valid and consumed by the app.
+const sources = [];
 
 for (const source of sources) {
   const input = join(dir, source);
@@ -19,11 +15,7 @@ for (const source of sources) {
   console.log(`materialized ${source} -> ${output}`);
 }
 
-const rasterSources = [
-  'hero-bg.webp', 'wood-tab.webp', 'war-axes.webp', 'shield-fallback.webp',
-  'panel-ranking.webp', 'panel-stone.webp', 'panel-war.webp', 'ranking-frame.webp', 'ribbon-red.webp',
-  'members.webp', 'swords.webp', 'fire.webp', 'star.webp', 'potion-green.webp', 'potion-purple.webp', 'capital.webp', 'alert.webp'
-];
+const rasterSources = [];
 
 for (const file of rasterSources) {
   const input = join(dir, file);
