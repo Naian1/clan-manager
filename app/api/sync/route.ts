@@ -1,4 +1,5 @@
 import { syncClanManager } from '../../../lib/services/sync-clan';
+import { syncWarMonitoring } from '../../../lib/services/sync-war';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -19,8 +20,9 @@ async function synchronize(request: Request) {
   }
 
   try {
-    const result = await syncClanManager();
-    return Response.json({ ok: true, result });
+    const clan = await syncClanManager();
+    const war = await syncWarMonitoring();
+    return Response.json({ ok: true, result: { clan, war } });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Falha desconhecida.';
     console.error('[clan-sync]', message);
