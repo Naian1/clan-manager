@@ -1,133 +1,453 @@
-/* Clash-inspired visual system, built in CSS after the asset folder was removed. */
-:root { --sky:#4f8793; --forest:#324b3d; --stone:#55544c; --wood:#4b3022; --wood-dark:#2b1d18; --paper:#ded0b2; --paper-light:#f0e4c8; --paper-ink:#2e251b; --red:#b44236; --gold:#f0bb43; --gold-dark:#8c5c21; }
-* { box-sizing:border-box; }
-body { background:#45453f !important; color:var(--paper-light); }
-.game-shell { min-height:100vh; background:radial-gradient(ellipse at 50% 0,#6a877e 0,#3e5148 35%,#45453f 70%) !important; }
-.site-header { position:relative; min-height:330px; overflow:hidden; background:linear-gradient(180deg,#4e8a99 0%,#75a3a0 38%,#4c7158 66%,#33483b 100%) !important; border:0 !important; }
-.site-header:before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 18% 72%,#193a2c 0 9%,transparent 10%),radial-gradient(ellipse at 35% 75%,#295039 0 12%,transparent 13%),radial-gradient(ellipse at 72% 70%,#1e3a31 0 13%,transparent 14%),linear-gradient(180deg,transparent 55%,#263a31aa); opacity:.75; }
-.site-header-inner { position:relative; z-index:1; width:min(980px,calc(100% - 34px)); min-height:330px; margin:auto; padding:27px 0 84px; display:flex; align-items:flex-start; justify-content:space-between; }
-.brand-mark { display:flex; align-items:center; gap:15px; color:#fff; text-shadow:0 3px #1c211d,0 5px 8px #0008; }
-.brand-shield { position:relative; display:grid; place-items:center; width:88px; height:108px; clip-path:polygon(50% 0,88% 15%,91% 70%,50% 100%,9% 70%,12% 15%); background:linear-gradient(180deg,#d39a31 0 17%,#7d2421 18% 68%,#36434a 69%); color:#fff3c7; font:700 22px Arial,sans-serif; text-shadow:0 2px #24130c; filter:drop-shadow(0 8px 4px #0008); }
-.brand-kicker { color:#ffe18a; font:700 11px Arial,sans-serif; letter-spacing:.15em; }
-.brand-mark h1 { margin:4px 0 2px; font:700 clamp(31px,5vw,47px)/1 Arial,sans-serif; letter-spacing:-.05em; }
-.brand-mark p { margin:0; color:#fff0cf; font:700 15px Arial,sans-serif; }
-.header-status { display:flex; gap:8px; align-items:center; padding-top:12px; }
-.header-status:before { content:'TROFÉUS'; padding:14px 13px; border:2px solid #2f3f42; border-radius:16px; background:#24343b; color:#ffd76a; font:700 10px Arial,sans-serif; box-shadow:0 5px 0 #172126; }
-.header-status { font-size:0; }
-.status-dot { width:56px; height:56px; display:block; border:2px solid #55727a; border-radius:50%; background:#263b42; box-shadow:0 5px 0 #172126; }
-.game-nav { position:absolute !important; top:272px; left:50%; transform:translateX(-50%); z-index:5; width:min(980px,calc(100% - 26px)); margin:0 !important; padding:0 !important; display:grid; grid-template-columns:repeat(6,1fr); gap:2px; }
-.game-nav-item { min-width:0; height:70px !important; display:flex; align-items:center; justify-content:center; border:1px solid #251914 !important; border-radius:7px !important; background:linear-gradient(#765033,#452c20) !important; color:#fff0cd !important; text-shadow:0 2px #21130d !important; box-shadow:inset 0 1px #9d7046,0 5px 5px #0008 !important; filter:none !important; font:700 12px Arial,sans-serif; }
-.game-nav-item:hover { filter:brightness(1.12) !important; }
-.game-nav-item.active { background:linear-gradient(#ffe2a0,#c88b2c) !important; border-color:#fff0b5 !important; color:#332015 !important; text-shadow:0 1px #fff3ba !important; box-shadow:inset 0 2px #fff5c6,0 5px 5px #0008 !important; transform:translateY(-4px) !important; }
-.page-main { position:relative; width:min(980px,calc(100% - 26px)); margin:auto; padding:54px 0 70px; }
-.home-intro,.page-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:24px; color:var(--paper-light); }
-.home-intro h2,.page-heading h2 { margin:0; color:#fff5dc; font:700 clamp(28px,4vw,40px)/1 Arial,sans-serif; text-shadow:0 3px #26251e; }
-.home-intro p,.page-heading p { margin:7px 0 0; color:#d8c9aa; font:13px Arial,sans-serif; }
-.eyebrow { color:#f7cb63; font:700 10px Arial,sans-serif; letter-spacing:.16em; }
-.primary-button,.secondary-button { display:inline-flex; padding:12px 16px; border:2px solid #ffe39a; border-radius:5px; background:var(--red) !important; color:#fff5dd; box-shadow:0 4px 0 #70241f; font:700 12px Arial,sans-serif; }
-.season-badge { color:#ffe4a8; font:700 10px Arial,sans-serif; text-align:right; }
-.season-badge strong { color:#fff; font-size:16px; }
-.metrics-game { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; }
-.stone-card,.card,.shortcut,.table-wrap { position:relative; background:linear-gradient(135deg,var(--paper-light),var(--paper)) !important; border:2px solid #817763 !important; border-radius:13px !important; clip-path:none !important; box-shadow:inset 0 1px #fff7dd,0 6px 0 #37382f,0 10px 13px #0006 !important; color:var(--paper-ink); }
-.stone-card { min-height:150px !important; padding:20px !important; display:block; overflow:hidden; }
-.stone-card:before { content:''; position:absolute; inset:7px; border:1px solid #b8a989; border-radius:8px; pointer-events:none; }
-.metric-index { position:relative; z-index:1; color:#9b6924; font:700 10px Arial,sans-serif; letter-spacing:.12em; }
-.metric-copy { position:relative; z-index:1; text-align:center; }
-.stone-title { margin-top:10px; color:var(--paper-ink) !important; font:700 15px Arial,sans-serif; text-shadow:0 1px #fff6df !important; }
-.stone-value { margin-top:20px; color:#211a14 !important; font:700 30px Arial,sans-serif; text-shadow:0 1px #fff6df !important; }
-.stone-note { margin-top:10px; color:#6e5b43 !important; font:12px Arial,sans-serif; }
-.game-panel { margin-top:54px; }
-.war-panel { min-height:386px; padding:61px 34px 22px; background:linear-gradient(180deg,#796346,#5f4a35) !important; border:2px solid #3d3024 !important; border-radius:16px !important; box-shadow:inset 0 0 0 2px #a58c69,0 8px 0 #37382f,0 13px 16px #0007 !important; }
-.ribbon { top:-25px !important; width:auto !important; height:auto !important; padding:13px 34px !important; background:var(--red) !important; border:2px solid #ebac55 !important; border-radius:5px !important; box-shadow:0 5px 0 #6f2621,0 8px 9px #0007 !important; color:#fff2d5 !important; font:700 20px Arial,sans-serif !important; text-shadow:0 2px #61201d !important; }
-.war-grid { display:grid; grid-template-columns:1fr .65fr 1fr; align-items:center; gap:20px; height:242px; }
-.war-team { display:flex; flex-direction:column; align-items:center; color:#fff0d1; text-align:center; }
-.war-team b { font:700 18px Arial,sans-serif; text-shadow:0 2px #38291d; }
-.mini-shield { width:62px; height:70px; margin:12px auto 8px; display:grid; place-items:center; background:#252b2e !important; border:3px solid var(--gold) !important; border-radius:17px 17px 24px 24px !important; box-shadow:0 4px 0 #30251d,inset 0 0 13px #0008 !important; color:#fff; font:700 27px Arial,sans-serif; }
-.mini-shield.enemy { border-color:#b7bec1 !important; }
-.stars { color:#ffd34e; font:700 30px Arial,sans-serif; letter-spacing:2px; }
-.enemy-stars { color:#c7ccce; }
-.war-team strong { margin-top:6px; color:#fff5de; font:700 24px Arial,sans-serif; }
-.battle-center { display:flex; flex-direction:column; align-items:center; justify-content:center; color:#ff8f76; text-align:center; }
-.battle-center:before { content:'VS'; margin-bottom:13px; color:#f6cf6a; font:700 13px Arial,sans-serif; letter-spacing:.25em; }
-.battle-center b { font:12px Arial,sans-serif; }
-.war-footer { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding-top:16px; border-top:2px solid #967553; color:#f0dfbd; text-align:center; font:700 10px Arial,sans-serif; }
-.ranking-panel { min-height:330px; padding:56px 32px 24px; background:linear-gradient(135deg,var(--paper-light),var(--paper)) !important; border:2px solid #817763 !important; border-radius:16px !important; box-shadow:inset 0 1px #fff7dd,0 7px 0 #37382f,0 12px 15px #0007 !important; }
-.ranking-panel .ranking-name,.ranking-panel .ranking-stat { color:var(--paper-ink) !important; }
-.ranking-panel .ranking-name span { color:#6e5b43; }
-.ranking-head .ribbon { top:-25px !important; }
-.ranking-row { border-bottom:1px solid #998a6d99; }
-.rank-medal { color:#251b13; }
-.player-shield { background:#3b4448; border:3px solid #202629; }
-.stone-button { top:8px !important; right:8px !important; padding:9px 13px !important; background:#765033 !important; border:2px solid #3c281c !important; border-radius:6px !important; color:#ffe9b7 !important; box-shadow:0 3px 0 #2c1b14 !important; font:700 11px Arial,sans-serif; }
-.ranking-empty { padding:40px 16px; color:#735d42; text-align:center; font:14px Arial,sans-serif; }
-.shortcut-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:28px; }
-.shortcut { min-height:118px; padding:20px; display:grid; grid-template-columns:35px 1fr; grid-template-rows:1fr 1fr; align-items:center; overflow:hidden; }
-.shortcut.green { background:linear-gradient(135deg,#718b2c,#3d5f29) !important; color:#fff4d8 !important; border-color:#a8bb59 !important; }
-.shortcut.blue { background:linear-gradient(135deg,#3973a3,#264a76) !important; color:#fff4d8 !important; border-color:#7ea9d3 !important; }
-.shortcut.purple { background:linear-gradient(135deg,#74589c,#4b3870) !important; color:#fff4d8 !important; border-color:#a78aca !important; }
-.shortcut-rule { grid-row:1/3; height:61px; border-left:3px solid #f6cd61; border-right:1px solid #ffffff66; }
-.shortcut strong { font:700 15px Arial,sans-serif; text-shadow:0 2px #2228; }
-.shortcut small { color:#fff0c9; font:12px Arial,sans-serif; }
-.table-wrap { overflow:auto; padding:20px; }
-.data-table { width:100%; border-collapse:collapse; color:var(--paper-ink); font:13px Arial,sans-serif; }
-.data-table th { padding:12px 10px; color:#705633; border-bottom:1px solid #a19072; text-align:left; font-size:10px; letter-spacing:.1em; }
-.data-table td { padding:14px 10px; border-bottom:1px solid #aa9a7b88; }
-.data-table a { color:#6b3b1f; }
-.data-table small { color:#78664b; }
-.badge { display:inline-flex; padding:5px 8px; border:1px solid #426934; border-radius:4px; background:#6c9238; color:#fff7d7; font-size:10px; }
-.badge.muted { border-color:#86745a; background:#a09076; }
-.feature-grid,.admin-grid,.profile-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
-.admin-grid { grid-template-columns:repeat(3,1fr); }
-.feature-panel,.admin-card { min-height:205px; padding:26px; background:linear-gradient(145deg,#263f42,#20332f) !important; border:2px solid #756044; border-radius:10px; box-shadow:0 7px 0 #37382f,0 12px 15px #0006; color:#f5e5c1; }
-.feature-panel.compact { background:linear-gradient(145deg,#26394a,#1e2e3d) !important; }
-.feature-panel h3,.admin-card h3 { margin:9px 0; font:700 20px Arial,sans-serif; }
-.feature-panel p,.admin-card p { color:#c3c2ad; font:14px/1.6 Arial,sans-serif; }
-.check-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #fff2; font:13px Arial,sans-serif; }
-.empty { min-height:220px; display:grid; place-items:center; color:#776248; font:14px Arial,sans-serif; text-align:center; }
-code { color:#ffd86d; }
-@media(max-width:760px){.site-header,.site-header-inner{min-height:265px}.site-header-inner{width:calc(100% - 24px);min-height:265px;padding:22px 0 95px}.brand-shield{width:62px;height:78px;font-size:16px}.brand-mark{gap:9px}.brand-kicker{font-size:8px}.brand-mark h1{font-size:25px}.brand-mark p{font-size:10px}.header-status{display:none}.game-nav{top:214px;width:calc(100% - 12px);gap:2px}.game-nav-item{height:61px !important;font-size:7px}.page-main{width:calc(100% - 18px);padding:40px 0 50px}.home-intro,.page-heading{display:block}.home-intro h2,.page-heading h2{font-size:30px}.primary-button{margin-top:16px}.season-badge{display:none}.metrics-game{grid-template-columns:repeat(2,1fr);gap:10px}.stone-card{min-height:140px !important;padding:16px !important}.stone-title{font-size:11px}.stone-value{font-size:25px}.stone-note{font-size:10px}.war-panel{padding:54px 12px 18px}.war-grid{grid-template-columns:1fr .7fr 1fr;height:225px;gap:2px}.war-team b{font-size:11px}.mini-shield{width:48px;height:55px;margin:8px auto;font-size:19px}.stars{font-size:18px}.war-team strong{font-size:17px}.battle-center b{font-size:9px}.war-footer{grid-template-columns:1fr;text-align:left;gap:6px;padding:10px 6px 0;font-size:9px}.ribbon{font-size:15px !important;padding:11px 18px !important}.ranking-panel{padding:48px 12px 18px}.ranking-row{grid-template-columns:28px 28px minmax(0,1fr) 40px 40px !important;gap:4px;padding:10px 0}.ranking-name strong{font-size:10px}.ranking-stat small{font-size:6px}.ranking-stat b{font-size:11px}.shortcut-grid,.feature-grid,.admin-grid,.profile-grid{grid-template-columns:1fr}.shortcut{min-height:100px}.table-wrap{padding:12px}.data-table th,.data-table td{padding:10px 6px;font-size:10px}.section-toolbar{display:block}.section-toolbar span{display:block;margin-top:7px}}
+:root {
+  --ink: #081820;
+  --glass: rgba(10, 30, 39, .66);
+  --glass-strong: rgba(9, 25, 33, .86);
+  --glass-line: rgba(211, 236, 236, .2);
+  --cream: #fff2cf;
+  --muted: #b9ced0;
+  --gold: #ffc94e;
+  --gold-deep: #a96616;
+  --red: #c64737;
+  --red-deep: #71241e;
+  --paper-ink: #2d2115;
+}
 
-/* One coherent raster layer: every image has a single owner and fixed role. */
-.site-header { background-image:linear-gradient(180deg,#17344255,#284b3d99),url('https://clashofclans.inbox.supercell.com/lqe2co20rkhw/5UGvg6mnykYT4jgKzwKhkr/0cc8792b0fca31dcf88d06664ab0849b/legendaryscenerycrop2.jpg') !important; background-position:center 42% !important; background-size:cover !important; }
-.game-nav-item { height:82px !important; border:0 !important; border-radius:0 !important; background-color:transparent !important; background-image:url('/assets/clash/nav-wood-final.png') !important; background-size:100% 100% !important; box-shadow:none !important; }
-.game-nav-item.active { background-image:url('/assets/clash/nav-active-final.png') !important; box-shadow:none !important; transform:translateY(-3px) !important; }
-.game-icon { display:block; width:28px; height:28px; background-image:none; background-size:contain; background-repeat:no-repeat; filter:drop-shadow(0 2px 1px #0008); }
-.icon-home { background-position:0 0; }.icon-players { background-position:50% 0; }.icon-wars { background-position:100% 0; }.icon-cwl { background-position:0 33.333%; }.icon-capital { background-position:50% 33.333%; }.icon-admin { background-position:100% 33.333%; }
-.icon-streak { background-position:100% 66.666%; }.icon-stars { background-position:0 100%; }.icon-donations { background-position:0 66.666%; }.icon-received { background-position:50% 66.666%; }.icon-raid { background-position:50% 100%; }.icon-alerts { background-position:100% 100%; }
-.stone-card { background:linear-gradient(#0000,#0000),url('/assets/clash/card-parchment-final.png') center/100% 100% no-repeat !important; border:0 !important; box-shadow:0 7px 7px #0008 !important; }
-.stone-card:before { display:none; }.metric-icon { margin:0 auto 4px; filter:drop-shadow(0 3px 2px #0006); }
-.metric-copy { text-align:center; }.stone-title { margin-top:2px; }
-.battle-center:before { width:92px; height:92px; content:''; margin-bottom:8px; background:url('/assets/clash/war-axes.webp') center/contain no-repeat; }
-.ranking-panel { background:linear-gradient(#0000,#0000),url('/assets/clash/ranking-frame-v3.png') center/100% 100% no-repeat !important; border:0 !important; box-shadow:0 7px 8px #0008 !important; }
-.shortcut { background:linear-gradient(#ffffff18,#0003),url('/assets/clash/card-parchment-final.png') center/100% 100% no-repeat !important; border:0 !important; }
-@media(max-width:760px){.game-nav-item{height:68px !important;font-size:7px}.game-icon{width:22px;height:22px}.site-header{background-position:center center !important}}
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body { background: var(--ink); color: var(--cream); }
 
-/* Individual transparent PNGs; the atlas is no longer used at runtime. */
-.game-icon { background-size:contain !important; background-position:center !important; background-repeat:no-repeat !important; }
-.game-icon.icon-home { background-image:url('/assets/clash/icons/home.png') !important; }
-.game-icon.icon-players { background-image:url('/assets/clash/icons/players.png') !important; }
-.game-icon.icon-wars { background-image:url('/assets/clash/icons/wars.png') !important; }
-.game-icon.icon-cwl { background-image:url('/assets/clash/icons/cwl.png') !important; }
-.game-icon.icon-capital { background-image:url('/assets/clash/icons/capital.png') !important; }
-.game-icon.icon-admin { background-image:url('/assets/clash/icons/admin.png') !important; }
-.game-icon.icon-streak { background-image:url('/assets/clash/icons/streak.png') !important; }
-.game-icon.icon-stars { background-image:url('/assets/clash/icons/stars.png') !important; }
-.game-icon.icon-donations { background-image:url('/assets/clash/icons/donations.png') !important; }
-.game-icon.icon-received { background-image:url('/assets/clash/icons/received.png') !important; }
-.game-icon.icon-raid { background-image:url('/assets/clash/icons/raid.png') !important; }
-.game-icon.icon-alerts { background-image:url('/assets/clash/icons/alerts.png') !important; }
-.metric-icon.game-icon { width:46px; height:46px; margin:0 auto 2px; }
-.game-nav-item { background:#31484a !important; background-image:none !important; border:1px solid #263536 !important; border-radius:4px !important; box-shadow:0 3px 0 #1b2728 !important; }
-.game-nav-item.active { background:linear-gradient(#f2c15c,#b47b29) !important; background-image:none !important; border-color:#ffe19a !important; color:#342014 !important; box-shadow:0 3px 0 #6b4723 !important; }
-.stone-card { border:0 !important; box-shadow:none !important; filter:drop-shadow(0 5px 4px #0007) !important; }
-.game-nav-item { background-color:transparent !important; background-image:url('/assets/clash/nav-wood-final.png') !important; background-size:100% 100% !important; background-repeat:no-repeat !important; border:0 !important; border-radius:0 !important; box-shadow:none !important; color:#fff0cd !important; text-shadow:0 2px #21130d !important; }
-.game-nav-item.active { background-image:url('/assets/clash/nav-active-final.png') !important; color:#342014 !important; text-shadow:0 1px #fff3ba !important; transform:translateY(-3px) !important; }
-.site-header { min-height:190px !important; background:#263b3b !important; }
-.site-header:before { display:none; }
-.site-header { background-image:linear-gradient(180deg,#17344244,#284b3d88),url('https://clashofclans.inbox.supercell.com/lqe2co20rkhw/5UGvg6mnykYT4jgKzwKhkr/0cc8792b0fca31dcf88d06664ab0849b/legendaryscenerycrop2.jpg') !important; background-position:center 42% !important; background-size:cover !important; }
-.site-header-inner { min-height:190px !important; padding-top:82px !important; }
-.game-nav { position:relative !important; top:auto !important; left:auto !important; transform:none !important; width:min(980px,calc(100% - 26px)) !important; height:64px !important; margin:-32px auto 0 !important; padding:8px 0 !important; display:grid !important; grid-template-columns:repeat(6,1fr) !important; gap:6px !important; background:transparent !important; border:0 !important; box-shadow:none !important; }
-.game-nav-item,.game-nav-item.active { height:46px !important; background:#2b4143 !important; background-image:none !important; border:1px solid #587074 !important; border-radius:4px !important; box-shadow:none !important; transform:none !important; color:#e8d39d !important; text-shadow:none !important; }
-.game-nav-item.active { background:#b13e35 !important; border-color:#f0bd51 !important; color:#fff3d2 !important; }
-.page-main { padding-top:36px !important; }
-@media(max-width:760px){.site-header,.site-header-inner{min-height:220px !important}.site-header-inner{padding-top:48px !important}.game-nav{height:58px !important;margin:-29px auto 0 !important;padding:7px 5px !important;gap:3px !important}.game-nav-item,.game-nav-item.active{height:43px !important;font-size:7px !important}.game-icon{width:20px;height:20px}.page-main{padding-top:28px !important}}
+.game-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #0a1c24;
+}
+
+.game-shell::before {
+  content: '';
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 18, 25, .12) 0, rgba(5, 17, 22, .48) 38%, rgba(5, 14, 18, .88) 100%),
+    url('https://clashofclans.inbox.supercell.com/lqe2co20rkhw/5UGvg6mnykYT4jgKzwKhkr/0cc8792b0fca31dcf88d06664ab0849b/legendaryscenerycrop2.jpg') center 30% / cover no-repeat;
+  transform: scale(1.02);
+}
+
+.game-shell::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 22%, rgba(79, 204, 185, .17), transparent 28%),
+    radial-gradient(circle at 82% 40%, rgba(255, 190, 66, .1), transparent 23%),
+    linear-gradient(90deg, rgba(1, 8, 12, .26), transparent 22% 78%, rgba(1, 8, 12, .26));
+}
+
+.site-header {
+  position: relative;
+  min-height: 230px;
+  border-bottom: 1px solid rgba(255, 213, 111, .38);
+  background:
+    linear-gradient(180deg, rgba(4, 18, 26, .12), rgba(6, 26, 33, .5)),
+    url('https://clashofclans.inbox.supercell.com/lqe2co20rkhw/5UGvg6mnykYT4jgKzwKhkr/0cc8792b0fca31dcf88d06664ab0849b/legendaryscenerycrop2.jpg') center 38% / cover no-repeat;
+  box-shadow: inset 0 -70px 90px rgba(6, 19, 24, .5);
+}
+
+.site-header-inner {
+  width: min(1120px, calc(100% - 36px));
+  min-height: 230px;
+  margin: 0 auto;
+  padding: 45px 0 56px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand-mark { display: flex; align-items: center; gap: 18px; }
+.brand-shield {
+  width: 92px;
+  height: 108px;
+  display: grid;
+  place-items: center;
+  clip-path: polygon(50% 0, 91% 16%, 88% 71%, 50% 100%, 12% 71%, 9% 16%);
+  border: 3px solid var(--gold);
+  background: linear-gradient(155deg, #e5b34d 0 17%, #aa342d 18% 63%, #172d38 64%);
+  color: #fff7db;
+  filter: drop-shadow(0 9px 7px rgba(0, 0, 0, .62));
+  font: 22px/1 Arial, sans-serif;
+  text-shadow: 0 2px 0 #35160f;
+}
+
+.brand-kicker, .eyebrow, .panel-kicker {
+  color: var(--gold);
+  font: 800 10px/1.2 Arial, sans-serif;
+  letter-spacing: .18em;
+}
+
+.brand-mark h1 {
+  margin: 5px 0 3px;
+  color: #fff8e7;
+  font: 400 clamp(34px, 5vw, 50px)/.95 'Lilita One', Arial, sans-serif;
+  letter-spacing: .01em;
+  text-shadow: 0 4px 0 #122129, 0 8px 18px rgba(0, 0, 0, .75);
+}
+
+.brand-mark p { margin: 0; color: #ffe6aa; font: 700 14px Arial, sans-serif; text-shadow: 0 2px #13242a; }
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--glass-line);
+  border-radius: 18px;
+  background: rgba(5, 23, 31, .58);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 8px 25px rgba(0, 0, 0, .35);
+  backdrop-filter: blur(14px) saturate(140%);
+  color: #e9f5ec;
+  font: 700 10px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.status-dot { width: 9px; height: 9px; border-radius: 50%; background: #71e263; box-shadow: 0 0 12px #71e263; }
+
+.game-nav {
+  position: relative;
+  z-index: 10;
+  width: min(1060px, calc(100% - 30px));
+  min-height: 66px;
+  margin: -34px auto 0;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 19px;
+  background: rgba(8, 28, 36, .67);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .14), 0 18px 35px rgba(0, 0, 0, .38);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.game-nav-item {
+  min-width: 0;
+  height: 48px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #d7e4dd;
+  font: 800 11px Arial, sans-serif;
+  transition: .18s ease;
+}
+.game-nav-item:hover { color: #fff2c6; background: rgba(255, 255, 255, .08); transform: translateY(-1px); }
+.game-nav-item.active {
+  border-color: rgba(255, 226, 132, .92);
+  background: linear-gradient(135deg, rgba(206, 69, 52, .94), rgba(151, 42, 36, .94));
+  color: #fff8df;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .2), 0 5px 16px rgba(111, 27, 20, .5);
+}
+
+.game-icon {
+  flex: 0 0 auto;
+  width: 27px;
+  height: 27px;
+  display: block;
+  background: center / contain no-repeat;
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, .5));
+}
+.icon-home { background-image: url('/assets/clash/icons/home.png'); }
+.icon-players { background-image: url('/assets/clash/icons/players.png'); }
+.icon-wars { background-image: url('/assets/clash/icons/wars.png'); }
+.icon-cwl { background-image: url('/assets/clash/icons/cwl.png'); }
+.icon-capital { background-image: url('/assets/clash/icons/capital.png'); }
+.icon-admin { background-image: url('/assets/clash/icons/admin.png'); }
+.icon-streak { background-image: url('/assets/clash/icons/streak.png'); }
+.icon-stars { background-image: url('/assets/clash/icons/stars.png'); }
+.icon-donations { background-image: url('/assets/clash/icons/donations.png'); }
+.icon-received { background-image: url('/assets/clash/icons/received.png'); }
+.icon-raid { background-image: url('/assets/clash/icons/raid.png'); }
+.icon-alerts { background-image: url('/assets/clash/icons/alerts.png'); }
+
+.page-main { width: min(1120px, calc(100% - 36px)); margin: 0 auto; padding: 54px 0 78px; }
+.home-intro, .page-heading {
+  margin-bottom: 28px;
+  padding: 5px 3px 18px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, .11);
+}
+.home-intro h2, .page-heading h2 {
+  margin: 4px 0 0;
+  color: #fff7e4;
+  font: 400 clamp(34px, 5vw, 48px)/1 'Lilita One', Arial, sans-serif;
+  text-shadow: 0 3px #102028, 0 8px 18px rgba(0, 0, 0, .55);
+}
+.home-intro p, .page-heading p { margin: 7px 0 0; color: #d0dcda; font: 13px Arial, sans-serif; }
+.primary-button, .secondary-button, .stone-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 225, 142, .9);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #d6543f, #a62e2a);
+  box-shadow: inset 0 1px rgba(255,255,255,.2), 0 4px 0 #68201d, 0 10px 20px rgba(0,0,0,.28);
+  color: #fff7dc;
+  font: 800 12px Arial, sans-serif;
+  transition: .18s ease;
+}
+.primary-button, .secondary-button { padding: 13px 17px; }
+.primary-button:hover, .secondary-button:hover, .stone-button:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.primary-button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.season-badge { color: #ffe4a8; font: 700 10px Arial, sans-serif; text-align: right; }
+.season-badge strong { color: white; font-size: 16px; }
+
+.metrics-game { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.stone-card {
+  position: relative;
+  min-height: 166px;
+  padding: 27px 21px 22px;
+  display: grid;
+  place-items: center;
+  background: url('/assets/clash/card-parchment-final.png') center / 100% 100% no-repeat;
+  color: var(--paper-ink);
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, .48));
+  transition: transform .2s ease, filter .2s ease;
+}
+.stone-card:hover { transform: translateY(-5px) rotate(-.15deg); filter: drop-shadow(0 16px 12px rgba(0, 0, 0, .5)); }
+.metric-icon { width: 43px; height: 43px; margin: 0 auto 2px; }
+.metric-copy { text-align: center; }
+.stone-title { color: #312318; font: 800 14px Arial, sans-serif; text-shadow: 0 1px rgba(255,255,255,.8); }
+.stone-value { margin-top: 14px; color: #20160f; font: 400 30px/1 'Lilita One', Arial, sans-serif; }
+.stone-note { margin-top: 10px; color: #725c40; font: 11px Arial, sans-serif; }
+
+.game-panel { position: relative; margin-top: 64px; }
+.war-panel, .ranking-panel, .table-wrap {
+  border: 1px solid var(--glass-line);
+  background: linear-gradient(145deg, rgba(17, 43, 52, .79), rgba(8, 24, 31, .72));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 24px 45px rgba(0, 0, 0, .42);
+  backdrop-filter: blur(22px) saturate(135%);
+}
+
+.war-panel {
+  width: min(950px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 32px 24px;
+  border-radius: 27px;
+  overflow: hidden;
+}
+.war-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 15%, rgba(255, 194, 79, .15), transparent 31%), linear-gradient(90deg, rgba(255,255,255,.04), transparent 25% 75%, rgba(255,255,255,.04));
+}
+.panel-title-wrap { position: relative; z-index: 1; margin: 0 -32px 10px; padding: 18px 24px 0; text-align: center; }
+.panel-title-wrap .panel-kicker { display: block; margin-bottom: 8px; }
+.ribbon {
+  width: min(590px, 84%);
+  margin: 0 auto;
+  padding: 13px 28px;
+  border: 1px solid #f5b151;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #d65443, #a92f2a);
+  box-shadow: inset 0 1px rgba(255,255,255,.24), 0 5px 0 var(--red-deep), 0 13px 24px rgba(0,0,0,.38);
+  color: #fff5da;
+  font: 400 clamp(21px, 3vw, 28px)/1 'Lilita One', Arial, sans-serif;
+  letter-spacing: .02em;
+  text-shadow: 0 3px #72251f;
+}
+.war-grid { position: relative; z-index: 1; min-height: 300px; display: grid; grid-template-columns: 1fr .9fr 1fr; align-items: center; gap: 18px; }
+.war-team { display: flex; flex-direction: column; align-items: center; color: #fff3d6; text-align: center; }
+.war-team > b { font: 400 21px 'Lilita One', Arial, sans-serif; text-shadow: 0 3px #101b20; }
+.war-team > span { min-height: 16px; margin-top: 4px; color: var(--muted); font: 11px Arial, sans-serif; }
+.mini-shield {
+  width: 72px;
+  height: 82px;
+  margin: 13px 0 8px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--gold);
+  border-radius: 20px 20px 29px 29px;
+  background: linear-gradient(160deg, #263e48, #0b171d);
+  box-shadow: inset 0 0 22px rgba(0,0,0,.5), 0 8px 15px rgba(0,0,0,.42);
+  font: 26px Arial, sans-serif;
+}
+.mini-shield.enemy { border-color: #b9c4c7; }
+.stars { color: #ffd153 !important; font: 19px Arial, sans-serif !important; letter-spacing: 4px; text-shadow: 0 2px #75440d; }
+.enemy-stars { color: #c8d0d2 !important; text-shadow: 0 2px #313c40; }
+.war-team strong { margin-top: 8px; font: 400 25px 'Lilita One', Arial, sans-serif; }
+.battle-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.battle-axes { width: 168px; height: 168px; display: block; background: url('/assets/clash/war-axes.webp') center / contain no-repeat; filter: drop-shadow(0 14px 8px rgba(0,0,0,.48)); }
+.battle-center strong { margin-top: -11px; color: var(--gold); font: 400 22px 'Lilita One', Arial, sans-serif; letter-spacing: .2em; text-shadow: 0 3px #3b2815; }
+.battle-center b { max-width: 180px; margin-top: 8px; color: #ff9c85; font: 11px/1.35 Arial, sans-serif; }
+.war-footer { position: relative; z-index: 1; padding-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; border-top: 1px solid rgba(255, 209, 110, .28); color: #c9d8d7; text-align: center; font: 10px Arial, sans-serif; }
+.war-footer b { display: block; margin-bottom: 4px; color: #ffe0a0; font-size: 9px; letter-spacing: .08em; }
+
+.ranking-panel { padding: 0; border-radius: 27px; overflow: hidden; }
+.ranking-head {
+  min-height: 105px;
+  padding: 23px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid rgba(255, 220, 143, .2);
+  background: linear-gradient(110deg, rgba(183, 55, 44, .9), rgba(114, 35, 38, .62) 52%, rgba(12, 38, 46, .2));
+}
+.ranking-head h2 { margin: 5px 0 0; color: #fff5dd; font: 400 clamp(23px, 3vw, 31px)/1 'Lilita One', Arial, sans-serif; text-shadow: 0 3px #63221d; }
+.ranking-head .panel-kicker { color: #ffd871; }
+.stone-button { padding: 11px 15px; white-space: nowrap; }
+.stone-button span { font-size: 17px; }
+.ranking-list { padding: 8px 24px 18px; }
+.ranking-row { min-height: 73px; padding: 10px 4px; display: grid; grid-template-columns: 43px 47px minmax(150px, 1fr) repeat(3, 88px); align-items: center; gap: 10px; border-bottom: 1px solid rgba(215, 233, 230, .11); }
+.ranking-row:last-child { border-bottom: 0; }
+.rank-medal { width: 37px; height: 43px; display: grid; place-items: center; clip-path: polygon(50% 0, 93% 16%, 89% 78%, 50% 100%, 11% 78%, 7% 16%); background: linear-gradient(145deg, #d6e0e2, #6f7d83); color: #14232a; font: 400 18px 'Lilita One', Arial, sans-serif; filter: drop-shadow(0 4px 3px rgba(0,0,0,.45)); }
+.rank-1 { background: linear-gradient(145deg, #ffe17a, #c6811c); }
+.rank-2 { background: linear-gradient(145deg, #eef5f7, #89999e); }
+.rank-3 { background: linear-gradient(145deg, #eaa85e, #935021); }
+.player-shield { width: 40px; height: 46px; display: grid; place-items: center; border: 1px solid #83999f; border-radius: 11px 11px 16px 16px; background: #142b34; color: #afc3c5; text-align: center; font: 7px/1 Arial, sans-serif; }
+.player-shield b { color: white; font-size: 15px; }
+.ranking-name { display: flex; flex-direction: column; min-width: 0; }
+.ranking-name strong { overflow: hidden; color: #fff4d6; font: 800 13px Arial, sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.ranking-name span { margin-top: 4px; color: #8fb0b4; font: 10px Arial, sans-serif; }
+.ranking-stat { text-align: center; }
+.ranking-stat small { display: block; margin-bottom: 5px; color: #7fa2a7; font: 800 8px Arial, sans-serif; letter-spacing: .09em; }
+.ranking-stat b { color: #fff1c9; font: 400 17px 'Lilita One', Arial, sans-serif; }
+.ranking-empty { min-height: 185px; display: grid; place-content: center; gap: 7px; text-align: center; }
+.ranking-empty strong { color: #fff0ca; font: 400 22px 'Lilita One', Arial, sans-serif; }
+.ranking-empty span { color: #9cb4b7; font: 12px Arial, sans-serif; }
+
+.shortcut-grid { margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.shortcut {
+  position: relative;
+  min-height: 138px;
+  padding: 22px 20px;
+  display: grid;
+  grid-template-columns: 61px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 21px;
+  box-shadow: inset 0 1px rgba(255,255,255,.18), 0 15px 28px rgba(0,0,0,.35);
+  backdrop-filter: blur(18px) saturate(155%);
+  transition: .2s ease;
+}
+.shortcut::after { content: ''; position: absolute; width: 170px; height: 170px; right: -75px; top: -92px; border-radius: 50%; background: rgba(255,255,255,.1); }
+.shortcut:hover { transform: translateY(-5px); filter: brightness(1.08); }
+.shortcut.green { background: linear-gradient(135deg, rgba(84, 134, 43, .86), rgba(24, 66, 44, .77)); }
+.shortcut.blue { background: linear-gradient(135deg, rgba(44, 112, 163, .86), rgba(23, 54, 100, .78)); }
+.shortcut.purple { background: linear-gradient(135deg, rgba(112, 73, 158, .87), rgba(58, 35, 94, .8)); }
+.shortcut-icon { width: 58px; height: 58px; }
+.shortcut > span:not(.shortcut-icon) { min-width: 0; display: flex; flex-direction: column; }
+.shortcut small { color: #ffe49a; font: 800 8px Arial, sans-serif; letter-spacing: .12em; }
+.shortcut strong { margin: 6px 0; color: white; font: 400 19px/1.05 'Lilita One', Arial, sans-serif; text-shadow: 0 3px rgba(0,0,0,.34); }
+.shortcut em { color: rgba(255,255,255,.78); font: normal 11px Arial, sans-serif; }
+.shortcut-arrow { position: relative; z-index: 1; width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.26); border-radius: 50%; background: rgba(5,18,26,.27); color: white; }
+
+.table-wrap { overflow: auto; padding: 22px; border-radius: 22px; }
+.section-toolbar { padding: 0 0 18px; display: flex; justify-content: space-between; gap: 12px; color: #fff1ce; font: 13px Arial, sans-serif; }
+.section-toolbar span { color: var(--muted); }
+.data-table { width: 100%; border-collapse: collapse; color: #e4eeee; font: 13px Arial, sans-serif; }
+.data-table th { padding: 12px 10px; border-bottom: 1px solid rgba(255,209,111,.27); color: #f2c867; text-align: left; font-size: 9px; letter-spacing: .1em; }
+.data-table td { padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.data-table small { color: #90aeb1; }
+.badge { display: inline-flex; padding: 5px 8px; border: 1px solid #81c269; border-radius: 7px; background: rgba(64,130,63,.5); color: #dcffd2; font: 10px Arial, sans-serif; }
+.badge.muted { border-color: #857964; background: rgba(112,101,82,.45); color: #d9cdb6; }
+.feature-grid, .admin-grid, .profile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.admin-grid { grid-template-columns: repeat(3, 1fr); }
+.feature-panel, .admin-card {
+  min-height: 210px;
+  padding: 26px;
+  border: 1px solid var(--glass-line);
+  border-radius: 20px;
+  background: var(--glass);
+  box-shadow: inset 0 1px rgba(255,255,255,.1), 0 16px 30px rgba(0,0,0,.34);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+.feature-panel h3, .admin-card h3 { margin: 9px 0; color: #fff3d1; font: 400 23px 'Lilita One', Arial, sans-serif; }
+.feature-panel p, .admin-card p { color: #b8cccd; font: 14px/1.6 Arial, sans-serif; }
+.check-row { padding: 12px 0; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,.1); font: 13px Arial, sans-serif; }
+.empty { min-height: 220px; display: grid; place-items: center; color: #9db4b5; text-align: center; font: 14px Arial, sans-serif; }
+code { color: #ffd970; }
+
+@media (max-width: 900px) {
+  .metrics-game { grid-template-columns: repeat(2, 1fr); }
+  .ranking-row { grid-template-columns: 40px 43px minmax(120px, 1fr) repeat(3, 68px); }
+  .shortcut { grid-template-columns: 48px minmax(0, 1fr) 26px; padding: 18px 14px; gap: 9px; }
+  .shortcut-icon { width: 46px; height: 46px; }
+  .shortcut strong { font-size: 16px; }
+  .admin-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  .site-header, .site-header-inner { min-height: 205px; }
+  .site-header-inner { padding: 31px 0 54px; }
+  .brand-shield { width: 65px; height: 80px; font-size: 16px; }
+  .brand-mark { gap: 10px; }
+  .brand-kicker { font-size: 8px; }
+  .brand-mark h1 { font-size: 29px; }
+  .brand-mark p { font-size: 10px; }
+  .header-status { display: none; }
+  .game-nav { width: calc(100% - 16px); min-height: 58px; margin-top: -29px; padding: 6px; gap: 2px; border-radius: 15px; }
+  .game-nav-item { height: 44px; padding: 0 2px; gap: 2px; flex-direction: column; font-size: 7px; }
+  .game-nav-item .game-icon { width: 20px; height: 20px; }
+  .page-main { width: calc(100% - 20px); padding-top: 39px; }
+  .home-intro, .page-heading { display: block; }
+  .home-intro h2, .page-heading h2 { font-size: 34px; }
+  .primary-button { margin-top: 16px; }
+  .season-badge { display: none; }
+  .metrics-game { gap: 9px; }
+  .stone-card { min-height: 143px; padding: 21px 12px 18px; }
+  .metric-icon { width: 35px; height: 35px; }
+  .stone-title { font-size: 11px; }
+  .stone-value { margin-top: 10px; font-size: 25px; }
+  .stone-note { margin-top: 7px; font-size: 9px; }
+  .game-panel { margin-top: 48px; }
+  .war-panel { padding: 0 12px 18px; border-radius: 20px; }
+  .panel-title-wrap { margin: 0 -12px 6px; padding: 14px 8px 0; }
+  .ribbon { width: 92%; padding: 11px 8px; font-size: 20px; }
+  .war-grid { min-height: 245px; grid-template-columns: 1fr .78fr 1fr; gap: 1px; }
+  .war-team > b { font-size: 14px; }
+  .war-team > span { max-width: 90px; font-size: 8px; }
+  .mini-shield { width: 50px; height: 58px; border-radius: 14px 14px 20px 20px; font-size: 18px; }
+  .stars { font-size: 11px !important; letter-spacing: 1px; }
+  .war-team strong { font-size: 18px; }
+  .battle-axes { width: 88px; height: 88px; }
+  .battle-center strong { font-size: 16px; }
+  .battle-center b { max-width: 105px; font-size: 8px; }
+  .war-footer { grid-template-columns: 1fr; gap: 8px; text-align: left; font-size: 9px; }
+  .ranking-head { min-height: 90px; padding: 18px 15px; }
+  .ranking-head h2 { font-size: 20px; }
+  .ranking-head .panel-kicker { font-size: 7px; }
+  .stone-button { padding: 9px 10px; font-size: 9px; }
+  .ranking-list { padding: 6px 10px 14px; }
+  .ranking-row { grid-template-columns: 31px 34px minmax(0, 1fr) 48px 48px; gap: 5px; min-height: 63px; }
+  .mobile-hide { display: none; }
+  .rank-medal { width: 28px; height: 34px; font-size: 14px; }
+  .player-shield { width: 31px; height: 36px; }
+  .player-shield b { font-size: 12px; }
+  .ranking-name strong { font-size: 10px; }
+  .ranking-name span { font-size: 8px; }
+  .ranking-stat small { font-size: 6px; }
+  .ranking-stat b { font-size: 13px; }
+  .shortcut-grid, .feature-grid, .profile-grid { grid-template-columns: 1fr; }
+  .shortcut { min-height: 112px; }
+  .table-wrap { padding: 12px; }
+  .section-toolbar { display: block; }
+  .section-toolbar span { display: block; margin-top: 7px; }
+  .data-table th, .data-table td { padding: 10px 6px; font-size: 10px; }
+}
