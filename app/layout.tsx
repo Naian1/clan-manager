@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './raster-overrides.css';
+import './clan-badge.css';
 
 export const metadata: Metadata = {
   title: 'Clan Manager',
