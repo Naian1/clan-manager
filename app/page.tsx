@@ -46,7 +46,7 @@ export default async function HomePage() {
   return <ClashShell active="home">
     <section className="home-intro">
       <div><span className="eyebrow">VISÃO GERAL</span><h2>{clan?.name ?? 'Seu clã'}</h2><p>{clan?.tag ?? CLAN_TAG} · {clan?.war_league ?? 'Liga —'} · {clan?.points?.toLocaleString('pt-BR') ?? '—'} troféus</p></div>
-      <Link className="primary-button" href="/admin">Abrir administração <span>→</span></Link>
+      <Link className="primary-button" href="/players">Ver jogadores <span>→</span></Link>
     </section>
     <section className="metrics-game">{metrics.map(([icon, label, value, note]) => <article className="stone-card" key={label}><span className={`metric-icon game-icon icon-${icon}`} aria-hidden="true"/><div className="metric-copy"><div className="stone-title">{label}</div><div className="stone-value">{value}</div><div className="stone-note">{note}</div></div></article>)}</section>
 
@@ -64,11 +64,15 @@ export default async function HomePage() {
 
     <section className="ranking-panel game-panel">
       <div className="ranking-head"><div><span className="panel-kicker">TEMPORADA ATUAL · ORDENADO POR DOAÇÕES</span><h2>RANKING DA TEMPORADA</h2></div><Link href="/players" className="stone-button">Ver todos <span>→</span></Link></div>
-      <div className="ranking-list">{donationRanking.length ? donationRanking.slice(0, 5).map((player, index) => <div className="ranking-row" key={player.id}><div className={`rank-medal rank-${index + 1}`}>{index + 1}</div><div className="player-shield">TH<br/><b>{player.town_hall_level ?? '?'}</b></div><div className="ranking-name"><strong>{player.name}</strong><span>{player.league_name ?? player.tag}</span></div><div className="ranking-stat"><small>DOAÇÕES</small><b>{player.donations ?? 0}</b></div><div className="ranking-stat"><small>RECEBIDAS</small><b>{player.donations_received ?? 0}</b></div><div className="ranking-stat mobile-hide"><small>WAR STARS</small><b>{player.war_stars ?? 0}</b></div></div>) : <div className="ranking-empty"><strong>O salão ainda está vazio</strong><span>Execute a primeira sincronização para montar o ranking.</span></div>}</div>
+      <div className="ranking-list">{donationRanking.length ? donationRanking.slice(0, 5).map((player, index) => <div className="ranking-row" key={player.id}>
+        <div className={`rank-medal rank-${index + 1}`}>{index + 1}</div>
+        <div className="ranking-th-art">{player.town_hall_level ? <img src={`/api/assets/townhall/${player.town_hall_level}`} alt={`TH ${player.town_hall_level}`}/> : null}<small>TH {player.town_hall_level ?? '—'}</small></div>
+        <div className="ranking-name"><Link href={`/players/${encodeURIComponent(player.tag.replace(/^#/, ''))}`}><strong>{player.name}</strong></Link><span>{player.league_icon_url ? <img className="ranking-league-icon" src={player.league_icon_url} alt=""/> : null}{player.league_name ?? player.tag}</span></div>
+        <div className="ranking-stat"><small>DOAÇÕES</small><b>{player.donations ?? 0}</b></div><div className="ranking-stat"><small>RECEBIDAS</small><b>{player.donations_received ?? 0}</b></div><div className="ranking-stat mobile-hide"><small>WAR STARS</small><b>{player.war_stars ?? '—'}</b></div></div>) : <div className="ranking-empty"><strong>O salão ainda está vazio</strong><span>Execute a primeira sincronização para montar o ranking.</span></div>}</div>
     </section>
 
     <section className="shortcut-grid">
-      <Link href="/players" className="shortcut green"><span className="shortcut-icon game-icon icon-donations" aria-hidden="true"/><span><small>TEMPORADA ATUAL</small><strong>Melhores doadores</strong><em>{totalDonations.toLocaleString('pt-BR')} doações</em></span><b className="shortcut-arrow">→</b></Link>
+      <Link href="/players?sort=donations" className="shortcut green"><span className="shortcut-icon game-icon icon-donations" aria-hidden="true"/><span><small>TEMPORADA ATUAL</small><strong>Melhores doadores</strong><em>{totalDonations.toLocaleString('pt-BR')} doações</em></span><b className="shortcut-arrow">→</b></Link>
       <Link href="/wars" className="shortcut blue"><span className="shortcut-icon game-icon icon-stars" aria-hidden="true"/><span><small>HISTÓRICO DO CLÃ</small><strong>Desempenho em guerras</strong><em>{clan?.war_wins ?? 0} vitórias registradas</em></span><b className="shortcut-arrow">→</b></Link>
       <Link href="/capital" className="shortcut purple"><span className="shortcut-icon game-icon icon-raid" aria-hidden="true"/><span><small>{clan?.capital_league ?? 'RAID WEEKEND'}</small><strong>Capital do clã</strong><em>{clan?.capital_points?.toLocaleString('pt-BR') ?? '—'} pontos</em></span><b className="shortcut-arrow">→</b></Link>
     </section>

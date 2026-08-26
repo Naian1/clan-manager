@@ -46,6 +46,7 @@ export type ClashClanMember = {
 export type ClashClan = {
   tag: string;
   name: string;
+  description?: string;
   badgeUrls?: ClashIconUrls;
   clanLevel?: number;
   members?: number;
@@ -58,6 +59,14 @@ export type ClashClan = {
   clanPoints?: number;
   clanBuilderBasePoints?: number;
   clanCapitalPoints?: number;
+  requiredTrophies?: number;
+  requiredBuilderBaseTrophies?: number;
+  requiredTownhallLevel?: number;
+  type?: string;
+  isFamilyFriendly?: boolean;
+  labels?: ClashLabel[];
+  location?: { id?: number; name?: string; isCountry?: boolean; countryCode?: string };
+  clanCapital?: { capitalHallLevel?: number; districts?: Array<{ id?: number; name?: string; districtHallLevel?: number }> };
   memberList?: ClashClanMember[];
 };
 
@@ -111,7 +120,7 @@ export type ClashPlayer = {
   heroes?: ClashPlayerItem[];
   spells?: ClashPlayerItem[];
   heroEquipment?: ClashPlayerItem[];
-  achievements?: Array<{ name?: string; stars?: number; value?: number; target?: number; info?: string }>;
+  achievements?: Array<{ name?: string; stars?: number; value?: number; target?: number; info?: string; completionInfo?: string }>;
   currentLeagueGroupTag?: string;
   currentLeagueSeasonId?: string | number;
   previousLeagueGroupTag?: string;
@@ -189,3 +198,36 @@ export type ClashCwlLeagueGroup = {
   }>;
   rounds?: Array<{ warTags?: string[] }>;
 };
+
+export type ClashApiList<T = Record<string, unknown>> = {
+  items?: T[];
+  paging?: unknown;
+};
+
+export type ClashCapitalRaidMember = {
+  tag: string;
+  name: string;
+  attacks?: number;
+  attackLimit?: number;
+  bonusAttackLimit?: number;
+  capitalResourcesLooted?: number;
+};
+
+export type ClashCapitalRaidSeason = {
+  state?: string;
+  startTime: string;
+  endTime?: string;
+  capitalTotalLoot?: number;
+  raidsCompleted?: number;
+  totalAttacks?: number;
+  enemyDistrictsDestroyed?: number;
+  offensiveReward?: number;
+  defensiveReward?: number;
+  members?: ClashCapitalRaidMember[];
+  attackLog?: unknown[];
+  defenseLog?: unknown[];
+};
+
+export type ClashCapitalRaidSeasons = ClashApiList<ClashCapitalRaidSeason>;
+export type ClashPlayerBattleLog = ClashApiList<Record<string, unknown>>;
+export type ClashPlayerLeagueHistory = ClashApiList<Record<string, unknown>>;

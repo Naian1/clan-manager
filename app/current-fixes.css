@@ -15,30 +15,31 @@
 .game-nav-item {
   height: 58px;
   padding: 0 10px;
-  border: 0;
-  border-radius: 0;
-  background: url('/assets/clash/nav-wood-final.png') center / 100% 100% no-repeat;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
   color: #fff0ca;
   text-shadow: 0 2px 1px rgba(46, 21, 10, .92);
-  filter: drop-shadow(0 6px 4px rgba(0,0,0,.42));
+  filter: drop-shadow(0 4px 3px rgba(0,0,0,.4));
 }
 
 .game-nav-item:hover:not(.active) {
-  background: url('/assets/clash/nav-wood-final.png') center / 100% 100% no-repeat;
+  border-color: rgba(255,255,255,.08);
+  background: rgba(255,255,255,.05);
   color: white;
   transform: translateY(-2px);
-  filter: brightness(1.07) drop-shadow(0 7px 5px rgba(0,0,0,.48));
+  filter: brightness(1.07) drop-shadow(0 6px 4px rgba(0,0,0,.45));
 }
 
 .game-nav-item.active,
 .game-nav-item.active:hover {
-  border: 0;
-  border-radius: 0;
-  background: url('/assets/clash/nav-active-final.png') center / 100% 100% no-repeat;
+  border: 1px solid rgba(255, 220, 117, .92);
+  border-radius: 13px;
+  background: linear-gradient(180deg, #d85a42 0%, #b43a31 58%, #8d2a26 100%);
   color: #fff9df;
-  box-shadow: none;
+  box-shadow: inset 0 1px rgba(255,255,255,.24), inset 0 -3px rgba(92,25,21,.48), 0 6px 0 rgba(102,37,25,.76), 0 12px 18px rgba(0,0,0,.34);
   transform: translateY(-3px);
-  filter: drop-shadow(0 8px 5px rgba(0,0,0,.52));
+  filter: none;
 }
 
 .player-league-trophy-row {
@@ -107,6 +108,41 @@
   color: #fff4cf;
 }
 
+.ranking-th-art {
+  width: 64px;
+  min-width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.ranking-th-art img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 4px rgba(0,0,0,.45));
+}
+
+.ranking-th-art small {
+  color: #d6e4df;
+  font: 800 8px Arial, sans-serif;
+}
+
+.ranking-name span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ranking-league-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,.4));
+}
+
 .cwl-summary-grid {
   margin-bottom: 18px;
   display: grid;
@@ -143,8 +179,27 @@
   font: 9px Arial, sans-serif;
 }
 
+.live-data-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.live-data-card {
+  padding: 15px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  background: rgba(6,25,33,.64);
+}
+
+.live-data-card small { color:#8ca9ac; font:800 8px Arial,sans-serif; letter-spacing:.08em; }
+.live-data-card strong { display:block; margin-top:6px; color:#ffe6a4; font:400 22px 'Lilita One',Arial,sans-serif; }
+.live-data-card span { display:block; margin-top:4px; color:#afc3c3; font:10px Arial,sans-serif; }
+
 @media (max-width: 900px) {
   .cwl-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .live-data-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 680px) {
@@ -165,10 +220,20 @@
     font-size: 7px;
   }
 
+  .game-nav-item.active,
+  .game-nav-item.active:hover {
+    border-radius: 11px;
+    box-shadow: inset 0 1px rgba(255,255,255,.22), inset 0 -2px rgba(92,25,21,.45), 0 4px 0 rgba(102,37,25,.72), 0 8px 13px rgba(0,0,0,.3);
+  }
+
   .game-nav-item .game-icon { width: 19px; height: 19px; }
   .player-league-trophy-row { margin-left: auto; max-width: 220px; }
   .player-league-battles { margin-left: auto; }
   .cwl-summary-grid { gap: 8px; }
   .cwl-summary-card { min-height: 96px; padding: 13px; }
   .cwl-summary-card strong { font-size: 20px; }
+  .ranking-th-art { width: 48px; min-width: 48px; }
+  .ranking-th-art img { width: 40px; height: 40px; }
+  .ranking-league-icon { width: 18px; height: 18px; }
+  .live-data-grid { grid-template-columns: 1fr; gap: 8px; }
 }

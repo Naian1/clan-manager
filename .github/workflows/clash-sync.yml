@@ -1,0 +1,48 @@
+name: Clash sync
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+    - cron: '17 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Sync mode
+        required: true
+        default: fast
+        type: choice
+        options:
+          - fast
+          - full
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call protected sync endpoint
+        env:
+          CLAN_SYNC_SECRET: ${{ secrets.CLAN_SYNC_SECRET }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          MANUAL_MODE: ${{ inputs.mode }}
+        run: |
+          if [ -z "$CLAN_SYNC_SECRET" ]; then
+            echo "CLAN_SYNC_SECRET is not configured. Skipping without exposing any secret."
+            exit 0
+          fi
+
+          MODE="fast"
+          if [ "$EVENT_SCHEDULE" = "17 */4 * * *" ] || [ "$MANUAL_MODE" = "full" ]; then
+            MODE="full"
+          fi
+
+          if [ "$MODE" = "full" ]; then
+            URL="https://clan-manager-five.vercel.app/api/sync"
+          else
+            URL="https://clan-manager-five.vercel.app/api/sync/war"
+          fi
+
+          echo "Running $MODE sync"
+          curl --fail-with-body --retry 2 --retry-delay 5 \
+            -X POST "$URL" \
+            -H "Authorization: Bearer $CLAN_SYNC_SECRET" \
+            -H "Content-Type: application/json"

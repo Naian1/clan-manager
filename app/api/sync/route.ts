@@ -1,4 +1,5 @@
 import { syncClanManager } from '../../../lib/services/sync-clan';
+import { syncCapitalMonitoring } from '../../../lib/services/sync-capital';
 import { syncCwlMonitoring } from '../../../lib/services/sync-cwl';
 import { syncWarMonitoring } from '../../../lib/services/sync-war';
 
@@ -22,9 +23,12 @@ async function synchronize(request: Request) {
 
   try {
     const clan = await syncClanManager();
-    const war = await syncWarMonitoring();
-    const cwl = await syncCwlMonitoring();
-    return Response.json({ ok: true, result: { clan, war, cwl } });
+    const [war, cwl, capital] = await Promise.all([
+      syncWarMonitoring(),
+      syncCwlMonitoring(),
+      syncCapitalMonitoring(),
+    ]);
+    return Response.json({ ok: true, result: { clan, war, cwl, capital } });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Falha desconhecida.';
     console.error('[clan-sync]', message);
@@ -32,10 +36,5 @@ async function synchronize(request: Request) {
   }
 }
 
-export function GET(request: Request) {
-  return synchronize(request);
-}
-
-export function POST(request: Request) {
-  return synchronize(request);
-}
+export function GET(request: Request) { return synchronize(request); }
+export function POST(request: Request) { return synchronize(request); }
