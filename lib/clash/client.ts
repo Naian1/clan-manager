@@ -1,4 +1,4 @@
-import type { ClashClan } from './types';
+import type { ClashClan, ClashCurrentWar } from './types';
 
 const OFFICIAL_API_URL = 'https://api.clashofclans.com';
 
@@ -49,4 +49,8 @@ async function request<T>(path: string): Promise<T> {
 
 export function getClan(tag: string): Promise<ClashClan> {
   return request<ClashClan>(`/v1/clans/${encodeURIComponent(normalizeClanTag(tag))}`);
+}
+
+export function getCurrentWar(tag: string): Promise<ClashCurrentWar> {
+  return request<ClashCurrentWar>(`/v1/clans/${encodeURIComponent(normalizeClanTag(tag))}/currentwar`);
 }
