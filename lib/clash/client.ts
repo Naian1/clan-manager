@@ -1,4 +1,4 @@
-import type { ClashClan, ClashCurrentWar } from './types';
+import type { ClashClan, ClashCurrentWar, ClashPlayer, ClashWarLog } from './types';
 
 const OFFICIAL_API_URL = 'https://api.clashofclans.com';
 
@@ -12,7 +12,7 @@ export class ClashApiError extends Error {
   }
 }
 
-function normalizeClanTag(tag: string) {
+function normalizeTag(tag: string) {
   const normalized = tag.trim().toUpperCase();
   return normalized.startsWith('#') ? normalized : `#${normalized}`;
 }
@@ -48,9 +48,17 @@ async function request<T>(path: string): Promise<T> {
 }
 
 export function getClan(tag: string): Promise<ClashClan> {
-  return request<ClashClan>(`/v1/clans/${encodeURIComponent(normalizeClanTag(tag))}`);
+  return request<ClashClan>(`/v1/clans/${encodeURIComponent(normalizeTag(tag))}`);
 }
 
 export function getCurrentWar(tag: string): Promise<ClashCurrentWar> {
-  return request<ClashCurrentWar>(`/v1/clans/${encodeURIComponent(normalizeClanTag(tag))}/currentwar`);
+  return request<ClashCurrentWar>(`/v1/clans/${encodeURIComponent(normalizeTag(tag))}/currentwar`);
+}
+
+export function getWarLog(tag: string, limit = 20): Promise<ClashWarLog> {
+  return request<ClashWarLog>(`/v1/clans/${encodeURIComponent(normalizeTag(tag))}/warlog?limit=${Math.max(1, Math.min(200, limit))}`);
+}
+
+export function getPlayer(tag: string): Promise<ClashPlayer> {
+  return request<ClashPlayer>(`/v1/players/${encodeURIComponent(normalizeTag(tag))}`);
 }
