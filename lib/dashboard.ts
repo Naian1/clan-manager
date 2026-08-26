@@ -10,8 +10,12 @@ export type Clan = {
   badge_url: string | null;
   clan_level: number | null;
   members: number | null;
+  war_league_id: number | null;
   war_league: string | null;
+  war_league_icon_url: string | null;
+  capital_league_id: number | null;
   capital_league: string | null;
+  capital_league_icon_url: string | null;
   war_wins: number | null;
   war_losses: number | null;
   war_ties: number | null;
@@ -21,7 +25,9 @@ export type Clan = {
   last_synced_at: string | null;
 };
 
-export type ClanBranding = Pick<Clan, 'tag' | 'name' | 'badge_url'>;
+export type ClanBranding = Pick<Clan,
+  'tag' | 'name' | 'badge_url' | 'war_league' | 'war_league_icon_url' | 'capital_league' | 'capital_league_icon_url' | 'points' | 'capital_points'
+>;
 
 export type Player = {
   id: number;
@@ -33,7 +39,12 @@ export type Player = {
   donations: number | null;
   donations_received: number | null;
   war_stars: number | null;
+  war_stars_baseline: number | null;
+  war_stars_baseline_at: string | null;
   clan_rank: number | null;
+  league_id: number | null;
+  league_name: string | null;
+  league_icon_url: string | null;
   active: boolean;
   score: number;
 };
@@ -46,7 +57,7 @@ export async function getClanBranding(): Promise<ClanBranding | null> {
 
   const result = await supabase
     .from('clans')
-    .select('tag,name,badge_url')
+    .select('tag,name,badge_url,war_league,war_league_icon_url,capital_league,capital_league_icon_url,points,capital_points')
     .eq('tag', CLAN_TAG)
     .maybeSingle();
 
@@ -63,7 +74,7 @@ export async function getDashboardData(): Promise<DashboardData> {
   if (!clanResult.data) return { clan: null, players: [], configured: true, error: null };
 
   const playersResult = await supabase.from('players')
-    .select('id,tag,name,role,town_hall_level,trophies,donations,donations_received,war_stars,clan_rank,active,player_scores(total_score)')
+    .select('id,tag,name,role,town_hall_level,trophies,donations,donations_received,war_stars,war_stars_baseline,war_stars_baseline_at,clan_rank,league_id,league_name,league_icon_url,active,player_scores(total_score)')
     .eq('clan_id', clanResult.data.id).eq('active', true).order('clan_rank', { ascending: true, nullsFirst: false });
 
   const players = (playersResult.data ?? []).map((row: any) => ({
