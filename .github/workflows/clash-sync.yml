@@ -1,6 +1,9 @@
 name: Clash sync
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '*/10 * * * *'
     - cron: '17 */4 * * *'
@@ -26,11 +29,12 @@ jobs:
       - name: Select sync mode
         id: mode
         env:
+          EVENT_NAME: ${{ github.event_name }}
           EVENT_SCHEDULE: ${{ github.event.schedule }}
           MANUAL_MODE: ${{ inputs.mode }}
         run: |
           MODE="fast"
-          if [ "$EVENT_SCHEDULE" = "17 */4 * * *" ] || [ "$MANUAL_MODE" = "full" ]; then
+          if [ "$EVENT_NAME" = "push" ] || [ "$EVENT_SCHEDULE" = "17 */4 * * *" ] || [ "$MANUAL_MODE" = "full" ]; then
             MODE="full"
           fi
           echo "mode=$MODE" >> "$GITHUB_OUTPUT"
