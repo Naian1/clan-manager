@@ -10,6 +10,17 @@ function seasonLabel(value?: string | null) {
   return new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${year}-${month}-01T00:00:00Z`));
 }
 
+type PlayerRanking = {
+  id: number;
+  name: string;
+  tag: string;
+  attacks: number;
+  stars: number;
+  destruction: number;
+  triples: number;
+  rounds: number[];
+};
+
 export default async function Page() {
   const database = getSupabaseAdmin();
   if (!database) {
@@ -31,11 +42,20 @@ export default async function Page() {
   const totalStars = attacks.reduce((sum, attack) => sum + Number(attack.stars ?? 0), 0);
   const averageDestruction = attacks.length ? attacks.reduce((sum, attack) => sum + Number(attack.destruction_percentage ?? 0), 0) / attacks.length : null;
 
-  const byPlayer = new Map<number, { id: number; name: string; tag: string; attacks: number; stars: number; destruction: number; triples: number; rounds: number[] }>();
+  const byPlayer = new Map<number, PlayerRanking>();
   for (const attack of attacks) {
     const playerData = Array.isArray(attack.players) ? attack.players[0] : attack.players;
     const id = Number(attack.player_id);
-    const row = byPlayer.get(id) ?? { id, name: playerData?.name ?? `Jogador ${id}`, tag: playerData?.tag ?? '', attacks: 0, stars: 0, destruction: 0, triples: 0, rounds: [] };
+    const row: PlayerRanking = byPlayer.get(id) ?? {
+      id,
+      name: playerData?.name ?? `Jogador ${id}`,
+      tag: playerData?.tag ?? '',
+      attacks: 0,
+      stars: 0,
+      destruction: 0,
+      triples: 0,
+      rounds: [],
+    };
     row.attacks += 1;
     row.stars += Number(attack.stars ?? 0);
     row.destruction += Number(attack.destruction_percentage ?? 0);
