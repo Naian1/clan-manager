@@ -43,7 +43,7 @@ async function findClanWar(warTags: string[], clanTag: string) {
 
 export async function syncCwlMonitoring() {
   const database = requireAdminClient();
-  const clanTag = process.env.CLAN_TAG ?? DEFAULT_CLAN_TAG;
+  const clanTag = DEFAULT_CLAN_TAG;
 
   let group;
   try {
