@@ -2,7 +2,7 @@ import { getClan } from './clash/client';
 import { getSupabaseServer } from './supabase/server';
 import { getSupabaseAdmin } from './supabase/admin';
 
-export const CLAN_TAG = '#2GRURLPLL';
+export const CLAN_TAG = '#2CR990C22';
 
 export type Clan = {
   id: number;
