@@ -3,7 +3,7 @@ import { getClan, getPlayer } from '../clash/client';
 import type { ClashClanMember, ClashPlayer } from '../clash/types';
 import { getSupabaseAdmin } from '../supabase/admin';
 
-export const DEFAULT_CLAN_TAG = '#2GRURLPLL';
+export const DEFAULT_CLAN_TAG = '#2CR990C22';
 
 type StoredPlayer = {
   id: number;
