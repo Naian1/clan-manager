@@ -8,7 +8,7 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     app: 'Clan Manager',
-    clanTag: '#2GRURLPLL',
+    clanTag: '#2CR990C22',
     supercellConfigured: Boolean(process.env.CLASH_API_TOKEN || process.env.SUPERCELL_API_TOKEN),
     supabasePublicConfigured,
     supabaseServerConfigured: Boolean(
