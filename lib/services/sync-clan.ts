@@ -109,7 +109,7 @@ async function markSyncFailed(
 
 export async function syncClanManager(): Promise<ClanSyncResult> {
   const database = requireAdminClient();
-  const clanTag = process.env.CLAN_TAG ?? DEFAULT_CLAN_TAG;
+  const clanTag = DEFAULT_CLAN_TAG;
   let runId: number | null = null;
 
   try {
