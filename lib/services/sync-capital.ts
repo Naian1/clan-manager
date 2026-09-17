@@ -18,7 +18,7 @@ function toIso(value?: string) {
 
 export async function syncCapitalMonitoring() {
   const database = requireAdminClient();
-  const clanTag = process.env.CLAN_TAG ?? DEFAULT_CLAN_TAG;
+  const clanTag = DEFAULT_CLAN_TAG;
   const clanResult = await database.from('clans').select('id').eq('tag', clanTag).maybeSingle();
   if (clanResult.error) throw new Error(`Não foi possível localizar o clã para Capital: ${clanResult.error.message}`);
   if (!clanResult.data) throw new Error('O clã ainda não existe no banco. Execute o sync de membros primeiro.');
